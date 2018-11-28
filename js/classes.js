@@ -194,3 +194,33 @@ let pieces = [
   //5x5 grid
   rowA, rowB, rowC, rowD, rowE
 ];
+
+// Correr para testing:
+//pieces.forEach(el => el.forEach(ie => console.log(ie.description)));
+
+function Piece(id, description, syms, rots, color) {
+  this.id = id;
+  this.description = description;
+  this.syms = syms;
+  this.rots = rots;
+  this.color = color;
+};
+
+//Functions are defined within prototype to save memory
+Piece.prototype.select = function(player) {
+  player.holds = this; //Player holds the piece
+  this.color = player.color; //Piece color matches the player's color
+}; //Should I bind something here??
+
+function Player(name, color) {
+  this.name = name;
+  this.color = color;
+};
+
+function Game(mode) {
+  this.mode = mode; //1P Classic, 1P Easy, 2P
+};
+
+function Chrono(time) {
+  this.startTime = time;
+};
