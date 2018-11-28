@@ -5,205 +5,8 @@
   Gray: #777777
 */
 
-/* Game pieces catalogue */
-/* Consider allowing color-coded rows for a low-difficulty challenge*/
-let rowA = [
-  {
-    id: "1A",
-    description: "Semicircle",
-    syms: 1, //Symmetries determine rotation array
-    rots: [0], //If current rotation is in rots, then the piece enters,
-    color: "#777777"
-  },
-  {
-    id: "2A",
-    description: "Rhombus",
-    syms: 4,
-    rots: [0,1,2,3], //0 is for 0°, 1 for 90°, 2 for 180° and 3 for 270°,
-    color: "#777777"
-  },
-  {
-    id: "3A",
-    description: "Tilde",
-    syms: 1,
-    rots: [0,2],
-    color: "#777777"
-  },  
-  {
-    id: "4A",
-    description: "Hexagon",
-    syms: 3,
-    rots: [0,2],
-    color: "#777777"
-  },  
-  {
-    id: "5A",
-    description: "Starfish",
-    syms: 5,
-    rots: [0],
-    color: "#777777"
-  },
-];
-
-let rowB = [
-  {
-    id: "1B",
-    description: "Five-Point-Star",
-    syms: 5, 
-    rots: [0],
-    color: "#777777"
-  },
-  {
-    id: "2B",
-    description: "Hotdog",
-    syms: 2,
-    rots: [0,2],
-    color: "#777777"
-  },
-  {
-    id: "3B",
-    description: "Right-triangle",
-    syms: 1,
-    rots: [0],
-    color: "#777777"
-  },  
-  {
-    id: "4B",
-    description: "Triskelion",
-    syms: 3,
-    rots: [0],
-    color: "#777777"
-  },  
-  {
-    id: "5B",
-    description: "Rectangle",
-    syms: 2,
-    rots: [0,2],
-    color: "#777777"
-  },
-];
-
-let rowC = [
-  {
-    id: "1C",
-    description: "Rhombus-2",
-    syms: 2, 
-    rots: [0,2],
-    color: "#777777"
-  },
-  {
-    id: "2C",
-    description: "Arc",
-    syms: 1,
-    rots: [0],
-    color: "#777777"
-  },
-  {
-    id: "3C",
-    description: "Circle",
-    syms: 999,
-    rots: [0,1,2,3],
-    color: "#777777"
-  },  
-  {
-    id: "4C",
-    description: "Wide-cross",
-    syms: 4,
-    rots: [0,1,2,3],
-    color: "#777777"
-  },  
-  {
-    id: "5C",
-    description: "Inverted-tilde",
-    syms: 1,
-    rots: [0],
-    color: "#777777"
-  },
-];
-
-let rowD = [
-  {
-    id: "1D",
-    description: "Quarter-circle",
-    syms: 1, 
-    rots: [0],
-    color: "#777777"
-  },
-  {
-    id: "2D",
-    description: "Trapezoid",
-    syms: 3,
-    rots: [0],
-    color: "#777777"
-  },
-  {
-    id: "3D",
-    description: "Six-point-star",
-    syms: 6,
-    rots: [0,2],
-    color: "#777777"
-  },  
-  {
-    id: "4D",
-    description: "Diamond",
-    syms: 2,
-    rots: [0,2],
-    color: "#777777"
-  },  
-  {
-    id: "5D",
-    description: "Octagon",
-    syms: 8,
-    rots: [0,1,2,3],
-    color: "#777777"
-  },
-];
-
-let rowE = [
-  {
-    id: "1E",
-    description: "Star-piece",
-    syms: 1, 
-    rots: [0],
-    color: "#777777"
-  },
-  {
-    id: "2E",
-    description: "Pentagon",
-    syms: 5,
-    rots: [0],
-    color: "#777777"
-  },
-  {
-    id: "3E",
-    description: "Pill",
-    syms: 2,
-    rots: [0,2],
-    color: "#777777"
-  },  
-  {
-    id: "4E",
-    description: "X",
-    syms: 2,
-    rots: [0,2],
-    color: "#777777"
-  },  
-  {
-    id: "5E",
-    description: "Equilateral-triangle",
-    syms: 3,
-    rots: [0],
-    color: "#777777"
-  },
-];
-
-let pieces = [
-  //5x5 grid
-  rowA, rowB, rowC, rowD, rowE
-];
-
-// Correr para testing:
-//pieces.forEach(el => el.forEach(ie => console.log(ie.description)));
+/* Constructors and 
+prototype methods */
 
 function Piece(id, description, syms, rots, color) {
   this.id = id;
@@ -224,45 +27,117 @@ Piece.prototype.select = function(player) {
   this.color = player.color; //Piece color matches the player's color
 } //Should I bind something here??
 
+//Seems to work well
 Piece.prototype.rotateLeft = function() {
   this.position = (this.position === 3) ? 0 : this.position + 1;
 }
 
+//Seems to work well
 Piece.prototype.rotateRight = function() {
   this.position = (this.position === 0) ? 3 : this.position - 1;
 }
 
-//Consider outright using a flat array in first place to improve performance
-//Flatten pieces array for easy shuffling and sampling
-pieces = pieces[0].concat(pieces[1],pieces[2],pieces[3],pieces[4]);
-
-//Bind class to collection of pieces
-pieces = pieces.map(el => new Piece(el.id, el.description, el.syms, el.rots, el.color));
+//Seems to work well
+Piece.prototype.checkRotation = function() {
+  return (this.rots.indexOf(this.position) !== -1) ? true : false;
+}
 
 function Board(rows) {
   this.rows = rows; //3, 4 or 5
   this.slots = [];
   this.color = "#0023B9";
+  this.selectedSlot = null;
 }
 
+//Seems to work well
 Board.prototype.fillBoard = function() {
   let boardSize = this.rows**2; //Board is always square
   this.slots = sample(pieces, boardSize);
+}
+
+//TO DO: complete
+Board.prototype.setSlot = function(player) {
+  this.selectedSlot = player.clickedSlot; //Asegurarse que funcione
 }
 
 function Player(name, color, number) {
   this.name = name;
   this.color = color;
   this.number = number;
+  this.heldPiece = null;
+  this.clickedSlot = null;
 }
 
-function Game(mode) {
+/*This one is intertwined with the Game class...
+Input: index of game's available pieces array
+Effect: Sets a reference to that piece from Player
+The game is a hard parameter, whereas the index will be passed
+through DOM interactions */
+//Seems to work well
+Player.prototype.grabPiece = function(game, index) {
+  this.heldPiece = game.availablePieces[index];
+}
+
+//TO DO: complete
+Player.prototype.placePiece = function(board, game) {
+  if (board.selectedSlot.id === this.heldPiece.id && //The pieces match
+      this.heldPiece.checkRotation()) { //Accurately rotated
+      game.checkedPieces.push(
+        game.availablePieces.splice(
+          game.availablePieces.indexOf(this.heldPiece), 1
+          )[0] //So this returns an element and not a full array
+        ) //Just move the one piece from one array to the other
+        
+        //Agregar pieza a piezas acomodadas
+  }
+  else {
+    //Mostrar mensaje de alerta
+    //Tocar tono de equivocación
+    //Regresar pieza a tablero en posición original
+  }
+}
+
+//TO DO: complete
+Player.prototype.clickSlot = function(slot) {
+  this.clickedSlot = slot;
+}
+
+function Game(mode, pieces) {
   this.mode = mode; //1P Classic, 1P Easy, 2P
+  this.availablePieces = pieces;
+  this.checkedPieces = [];
 }
 
+//Seems to work well
+Game.prototype.filterPieces = function(board) { //Keep only the pieces that are relevant
+  this.availablePieces = this.availablePieces.filter(el => board.slots.indexOf(el) !== -1);
+}
+
+//TO DO: Test
+Game.prototype.checkFinished = function(board) { //Solo
+  return (this.checkedPieces.length === board.slots.length) ? true : false;
+}
+
+//TO DO: Test
+Game.prototype.checkGameOver = function(timer) {
+  return (timer.secondsLeft <= 0) ? true : false; //Return true if time is over
+}
+
+//TO DO: Build
+Game.prototype.checkWinner = function() {
+  //Check who, out of the available players, did best in the game
+}
+
+//TO DO: Build
 function Chrono(time) {
   this.startTime = time;
+  this.secondsLeft = 90;
 }
+
+//Function to tick
+//Function to set seconds left
+
+/* Generic utility functions */
 
 //Fisher-Yates (FY) Shuffle
 //Special thanks to Mike Bostock at https://bost.ocks.org/mike/shuffle/compare.html
@@ -288,3 +163,25 @@ function sample(array, size) {
     console.error("Stats error: array size must be larger than sample size");
   }
 }
+
+/* Set up game*/
+//Consider outright using a flat array in first place to improve performance
+//Flatten pieces array for easy shuffling and sampling
+// pieces = pieces[0].concat(pieces[1],pieces[2],pieces[3],pieces[4]);
+
+// //Bind class to collection of pieces
+// pieces = pieces.map(el => new Piece(el.id, el.description, el.syms, el.rots, el.color));
+
+
+/* Expected flow:
+Set pieces
+Set board (random)
+Set players
+1P:
+  *Set timer
+  *Arrange pieces randomly
+  *P1 selects piece from canvas
+  *P1 flips piece in submenu
+  *P1 selects slot in board
+  *Player checks if piece fits in board
+*/
