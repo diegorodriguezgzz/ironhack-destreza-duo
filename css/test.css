@@ -1,0 +1,42 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*Test suite styles*/
+#timerContainer, #notifContainer, #piecesArray {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#timerContainer {
+  height: 150px;
+}
+
+#testTimer {
+  font-size: 80pt;
+  text-align: center;
+}
+
+h3, #testNotif {
+  font-size: 28pt;
+  text-align: center;
+}
+
+#availablePieces {
+  font-size: 18pt;
+  text-align: center;
+}
+
+#board {
+  display: flex;
+  justify-content: space-around;
+  font-size: 18pt;
+}
+
+.inSlot {
+  color: #777777;
+  text-decoration: line-through;
+}
