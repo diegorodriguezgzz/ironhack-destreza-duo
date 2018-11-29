@@ -31,11 +31,13 @@ Piece.prototype.select = function(player) {
 //Seems to work well
 Piece.prototype.rotateLeft = function() {
   this.position = (this.position === 3) ? 0 : this.position + 1;
+  selectedPiece(this);
 }
 
 //Seems to work well
 Piece.prototype.rotateRight = function() {
   this.position = (this.position === 0) ? 3 : this.position - 1;
+  selectedPiece(this);
 }
 
 //Seems to work well
@@ -56,9 +58,16 @@ Board.prototype.fillBoard = function() {
   this.slots = sample(pieces, boardSize);
 }
 
-//TO DO: complete
+//TODO: complete
 Board.prototype.setSlot = function(player) {
   this.selectedSlot = player.clickedSlot; //Asegurarse que funcione
+}
+
+//TODO: remove because this is a test function
+Board.prototype.selectSlot = function(index) {
+  this.selectedSlot = this.slots[index];
+  let notifNode = document.getElementById("testNotif");
+  notifNode.innerHTML = `The board has ${this.slots[index].description} selected`; //¿O usar textNode?
 }
 
 function Player(name, color, number) {
@@ -90,7 +99,9 @@ Player.prototype.placePiece = function(game) {
           )[0] //So this returns an element and not a full array
         ) //Just move the one piece from one array to the other
       placedPiece(this.heldPiece, game)//Notify the player
-      game.checkFinished(game.board); //And check if the game is over
+      if(game.checkFinished(game.board)) {
+        game.checkWinner();
+      } //And check if the game is over
   }
   else if (!this.heldPiece.checkRotation()) {
     wrongRot();
@@ -131,13 +142,12 @@ Game.prototype.beginGame = function() {
   this.board = new Board(this.modeParams.rows);
   this.board.fillBoard();
   this.players = [];
-  for (let i = 1; i <= this.modeParams.players; i++) {
+  for (let i = 1; i <= this.modeParams.players; i++) { //Make players, too
     this.players.push(createPlayer(i)); //The param is playerNumber 
   }
-  //Make players, as well
   this.filterPieces(this.board);
   this.timer = new Chrono(this.modeParams.time);
-  this.interval = setInterval(update, 1000, this); //¡Funciona!
+  this.interval = setInterval(update, 1000, this);
   gfxSetup(this);
 }
 
@@ -156,12 +166,15 @@ Game.prototype.checkGameOver = function() {
   return (this.timer.secondsLeft <= 0) ? true : false; //Return true if time is over
 }
 
-//TODO: Build
 Game.prototype.checkWinner = function() {
-  //Check who, out of the available players, did best in the game
+  if (this.players.length === 1) {
+    alert("Congratulations, you won!");
+  }
+  else {
+    //Check who, out of the available players, did best in the game
+  }
 }
 
-//TODO: Build
 function Chrono(time) {
   // this.startTime = time; Datetime
   this.secondsLeft = time;
@@ -203,9 +216,9 @@ function sample(array, size) {
 /* Game-specific functions */
 
 function gfxSetup(game) {
-  let piecesNode = document.getElementById("availablePieces");
-  piecesNode.innerHTML = game.availablePieces.map((el, i) => ` ${i}. ${el.description}`); //¿Jala?
+  setAvailablePieces(game);
   fillGrid(game);
+  testListeners();
 }
 
 function update(game) {
@@ -217,17 +230,36 @@ function update(game) {
   }
 }
 
+function setAvailablePieces(game) {
+  let piecesNode = document.getElementById("availablePieces");
+  let cells = game.availablePieces.length;
+  let colLength = Math.sqrt(cells);
+  let cellNode;
+  //Iterate over cols
+  for (let j = 0; j < piecesNode.children.length; j++) {
+    //Iterate over cells
+    for (let i = 0; i < colLength; i++) {
+      cellNode = document.createElement("div");
+      cellNode.setAttribute("class", "piece piece--available")
+      cellNode.innerHTML = `${j*colLength+i}. ${game.availablePieces[j*colLength+i].description}`;
+      piecesNode.children[j].appendChild(cellNode);
+    }
+  }
+  //piecesNode.innerHTML = game.availablePieces.map((el, i) => ` ${i}. ${el.description}`); //¿Jala?
+}
+
 function fillGrid(game) {
   let boardNode = document.getElementById("board");
   let cells = game.board.slots.length;
-  let rowLength = Math.sqrt(cells);
+  let colLength = Math.sqrt(cells);
   let cellNode;
   //Iterate over cols
   for (let j = 0; j < boardNode.children.length; j++) {
     //Iterate over cells
-    for (let i = 0; i < rowLength; i++) {
+    for (let i = 0; i < colLength; i++) {
       cellNode = document.createElement("div");
-      cellNode.innerHTML = `${j*rowLength+i}. ${game.board.slots[j*rowLength+i].description}`;
+      cellNode.setAttribute("class", "slot slot--empty")
+      cellNode.innerHTML = `${j*colLength+i}. ${game.board.slots[j*colLength+i].description}`;
       boardNode.children[j].appendChild(cellNode);
     }
   }
@@ -263,9 +295,9 @@ function placedPiece(piece, game) {
   let row = slot % rowLength;
   notifNode.innerHTML = `You placed ${piece.description},
                          it's currently in board slot ${game.board.slots.indexOf(piece)}`; //¿O usar textNode?
-  piecesNode.innerHTML = game.availablePieces.map((el, i) => ` ${i}. ${el.description}`); //¿Jala?
+  //piecesNode.innerHTML = game.availablePieces.map((el, i) => ` ${i}. ${el.description}`); //¿Jala?
   //This strikes through the piece and sets font to gray
-  board.children[col].children[row].setAttribute("class", "inSlot"); //Refer to test.css
+  board.children[col].children[row].setAttribute("class", "slot--full"); //Refer to test.css
 }
 
 //TODO: Upgrade this
@@ -292,4 +324,51 @@ function updateHighlights() {
 
 function gameOver() {
   alert("¡Destreza!"); //TODO: Sustituir por animación chida
+}
+
+function testListeners() {
+  let rlButton = document.getElementById("rotLeft");
+  let rrButton = document.getElementById("rotRight");
+  let plButton = document.getElementById("placePiece");
+
+  rlButton.onclick = function() {
+    testGame.players[0].heldPiece.rotateLeft();
+  }
+
+  rrButton.onclick = function() {
+    testGame.players[0].heldPiece.rotateRight();
+  }
+
+  plButton.onclick = function() {
+    testGame.players[0].placePiece(testGame);
+  }
+  
+  //TODO: Cambiar esto porque las piezas se van sacando y deja undefineds
+  /* Set up listeners for selected piece*/
+  let pieces = document.getElementById("availablePieces");
+  let size = testGame.availablePieces.length;
+  let rowLength = Math.sqrt(size); //TODO: Change rowLength to colLength for consistency
+  for (let i = 0; i < rowLength; i++) {
+    for (let j = 0; j < rowLength; j++) {
+      let node = pieces.children[i].children[j];
+      node.onclick = function() {
+        let ind = parseInt(node.innerHTML.split(".")[0]);
+        testGame.players[0].grabPiece(testGame, ind);
+      }
+    }
+  }
+
+  /*Set up listeners for selected slot */
+  let board = document.getElementById("board");
+  size = testGame.board.slots.length;
+  rowLength = Math.sqrt(size);
+  for (let i = 0; i < rowLength; i++) {
+    for (let j = 0; j < rowLength; j++) {
+      let node = board.children[i].children[j];
+      node.onclick = function() {
+        let ind = parseInt(node.innerHTML.split(".")[0]);
+        testGame.board.selectSlot(ind);
+      }
+    }
+  }
 }

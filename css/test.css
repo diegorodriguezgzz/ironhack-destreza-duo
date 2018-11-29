@@ -25,18 +25,21 @@ h3, #testNotif {
   text-align: center;
 }
 
-#availablePieces {
-  font-size: 18pt;
-  text-align: center;
+h3 {
+  margin: 5vh;
 }
 
-#board {
+#board, #testDashboard, #availablePieces {
   display: flex;
   justify-content: space-around;
   font-size: 18pt;
 }
 
-.inSlot {
+#testDashboard {
+  margin: 10px auto;
+}
+
+.slot--full {
   color: #777777;
   text-decoration: line-through;
 }
