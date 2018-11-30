@@ -30,6 +30,6 @@ pieces = pieces.map(el => new Piece(el.id, el.description, el.syms, el.rots, el.
 
 // //Players
 // tester = new Player("Test", "#FF0000", 1);
-
-testGame = new Game("Solo", pieces);
+let mode = prompt("Which mode will you play? 1P Easy / 1P Classic / 2P")
+testGame = new Game(mode, pieces);
 testGame.beginGame();
