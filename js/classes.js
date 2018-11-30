@@ -133,45 +133,52 @@ function Game(mode, pieces) {
 Game.prototype.buildParameters = function() {
   switch (this.mode) { //TODO: Verificar si sequence se queda
     case "1P Easy":
-      this.modeParams = { //Test parameters
-        time : 60, //260
+      this.modeParams = { 
+        time : 60, 
         players : 1,
         rows : 3,
         sequence : [5]
       }
       break;
     case "1P Classic":
+      this.modeParams = { 
+        time : 90, 
+        players : 1,
+        rows : 5,
+        sequence : [5]
+      }
+      break;    
+    case "1P Test":
       this.modeParams = { //Test parameters
-        time : 90, //260
+        time : 120, //260
         players : 1,
         rows : 5,
         sequence : [5]
       }
       break;
     case "2P":
-      this.modeParams = { //Test parameters
-        time : 60, //260
+      this.modeParams = { 
+        time : 60, 
         players : 2,
         rows : 3,
         sequence : [3,4,5]
       }
       break;
     default:
-      this.modeParams = { //Test parameters
-        time : 90, //260
+      this.modeParams = {
+        time : 90, 
         players : 1,
-        rows : 5
+        rows : 5,
+        sequence : [5]
       }
       break;
   }
 }
 
 Game.prototype.beginGame = function() {
-  //TODO: Hay que mover el DOM para que los elementos de col sean
-  //los correspondientes al modo
   this.buildParameters();
-  prepContainers(this);
   this.board = new Board(this.modeParams.rows);
+  prepContainers(this); //DOM Manipulation
   this.board.fillBoard();
   this.players = [];
   for (let i = 1; i <= this.modeParams.players; i++) { //Make players, too
@@ -212,7 +219,7 @@ function Chrono(time) {
 }
 
 //Function to tick
-Chrono.prototype.tickDown = function() { //FIXIT: Tenía game como param
+Chrono.prototype.tickDown = function() {
   this.secondsLeft--;
 }
 
@@ -245,9 +252,20 @@ function sample(array, size) {
 }
 
 /* Game-specific functions */
-
 function prepContainers(game) {
-  //TODO: Resumir aquí; hay que hacer que el DOM se construya solo
+  //Declare variables
+  let col;
+  let piecesNode = document.getElementById("availablePieces");
+  let boardNode = document.getElementById("board");
+  //Set up pieces and board
+  for (let i = 0; i < game.board.rows; i++) {
+    col = document.createElement("div");
+    boardCol = document.createElement("div");
+    col.setAttribute("class", "col");
+    boardCol.setAttribute("class", "col");    
+    piecesNode.appendChild(col);
+    boardNode.appendChild(boardCol);
+  }
 }
 
 function gfxSetup(game) {
@@ -267,9 +285,9 @@ function update(game) {
 
 function setAvailablePieces(game) {
   let piecesNode = document.getElementById("availablePieces");
-  let cells = game.availablePieces.length
   let colLength = game.board.rows;
-  let cols = Math.ceil(cells / colLength); //TODO: Siento que todo esto se puede hacer más eficiente
+  let cells = game.availablePieces.length;
+  let cols = Math.ceil(cells / colLength);
   let remainder = (cells % colLength === 0) ? colLength : cells % colLength;
   let cellNode;
   //Iterate over cols
@@ -292,10 +310,8 @@ function setAvailablePieces(game) {
 
 function fillGrid(game) {
   let boardNode = document.getElementById("board");
-  let cells = game.board.slots.length; //TODO: ¿Conservar?
   let colLength = game.board.rows;
   let cellNode;
-
   //Iterate over cols
   for (let j = 0; j < boardNode.children.length; j++) {
     //Iterate over cells
@@ -323,13 +339,13 @@ function createPlayer(playerNumber) {
 }
 
 function selectedPiece(piece) {
+  keyboardListeners();
   let notifNode = document.getElementById("testNotif");
   notifNode.innerHTML = `You selected ${piece.description},
                          it's currently in position ${piece.position}`; //¿O usar textNode?
 }
 
 function placedPiece(piece, game) {
-  let piecesNode = document.getElementById("availablePieces");
   let notifNode = document.getElementById("testNotif");
   let board = document.getElementById("board");
   let slot = game.board.slots.indexOf(piece);
@@ -337,8 +353,7 @@ function placedPiece(piece, game) {
   let col = Math.floor(slot/rowLength);
   let row = slot % rowLength;
   notifNode.innerHTML = `You placed ${piece.description},
-                         it's currently in board slot ${game.board.slots.indexOf(piece)}`; //¿O usar textNode?
-  //piecesNode.innerHTML = game.availablePieces.map((el, i) => ` ${i}. ${el.description}`); //¿Jala?
+                         it's currently in board slot ${game.board.slots.indexOf(piece)}`;
   //This strikes through the piece and sets font to gray
   board.children[col].children[row].setAttribute("class", "slot--full"); //Refer to test.css
 }
@@ -416,6 +431,19 @@ function piecesListeners(game) {
         let ind = parseInt(node.innerHTML.split(".")[0]);
         game.players[0].grabPiece(game, ind); //¿Cómo agarrar el player?
       }
+    }
+  }
+}
+
+function keyboardListeners() {
+  document.onkeydown = function(e) {
+    switch (e.keyCode) {
+      case 37: //left TODO: Refactor to avoid dependency on test
+        testGame.players[0].heldPiece.rotateLeft()
+        break;
+      case 39: //right
+        testGame.players[0].heldPiece.rotateRight()
+        break;
     }
   }
 }
