@@ -43,3 +43,20 @@ h3 {
   color: #777777;
   text-decoration: line-through;
 }
+
+.board-slot {
+  height: 100px;
+  width: 100px;
+  stroke-width: 3;
+  background-color: #0023B9;
+  margin: 0;
+}
+
+svg path {
+  stroke: rgb(0, 5, 27) !important;
+  fill: rgb(0, 11, 59) !important; /*Necesario para que cambie de color*/
+}
+/* 
+svg {
+  fill: blue;
+} */

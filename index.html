@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- Test suite styles -->
   <link rel="stylesheet" href="css/test.css"> 
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <title>Document</title>
 </head>
 <body>
@@ -26,10 +27,46 @@
   </div>
   <h3>Board</h3>
   <div id="board">
-    <!-- This is filled from classes.js -> game.js -->
+    <!-- Test grid for SVG manipulation-->
+    <table>
+      <tr class="row">
+        <td class="game-piece-container">
+          <img id="svg0" class="board-slot" src="/assets/1A-Semicircle-box.svg">
+        </td>
+        <td class="game-piece-container">
+          <img id="svg1" class="board-slot">
+        </td>
+        <td class="game-piece-container">
+          <img id="svg2" class="board-slot">
+        </td>
+      </tr>
+      <tr class="row">
+        <td class="game-piece-container">
+          <img id="svg3" class="board-slot">
+        </td>
+        <td class="game-piece-container">
+          <img id="svg4" class="board-slot">
+        </td>
+        <td class="game-piece-container">
+          <img id="svg5" class="board-slot">
+        </td>
+      </tr>
+      <tr class="row">
+        <td class="game-piece-container">
+          <img id="svg6" class="board-slot">
+        </td>
+        <td class="game-piece-container">
+          <img id="svg7" class="board-slot">
+        </td>
+        <td class="game-piece-container">
+          <img id="svg8" class="board-slot">
+        </td>
+      </tr>
+    </table>
   </div>
   <script src="js/pieces.js"></script>
   <script src="js/classes.js"></script>
   <script src="js/game.js"></script>
+  <script src="js/img-to-svg.js"></script>
 </body>
 </html>

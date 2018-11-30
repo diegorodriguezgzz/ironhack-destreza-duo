@@ -14,6 +14,8 @@ function Piece(id, description, syms, rots, color) {
   this.syms = syms;
   this.rots = rots;
   this.color = color;
+  this.path = `assets/${this.id}-${this.description}.svg`; //Ej src: "assets/1A-Semicircle.svg"
+  this.boxPath = `assets/${this.id}-${this.description}-box.svg`;
   this.position = Math.floor(Math.random()*4); //Out of possible rotations
   this.x = 0; //For drawing on the board
   this.y = 0;
