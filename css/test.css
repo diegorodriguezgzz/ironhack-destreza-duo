@@ -61,7 +61,7 @@ h3 {
 }
 
 /* Color de los slots en el tablero */
-svg path { 
+svg path, svg polygon, svg circle, svg rect#rect3926, svg rect#rect3890 {
   stroke: rgb(0, 5, 27) !important;
   fill: rgb(0, 11, 59) !important; /*Necesario para que cambie de color*/
 }
