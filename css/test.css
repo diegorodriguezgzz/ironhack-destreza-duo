@@ -1,3 +1,11 @@
+/* Colors:  
+  Blue (board): #0023B9
+  Yellow (piece): #FFC300
+  Red: #FF0000
+  Gray: #777777
+*/
+
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -18,6 +26,7 @@ body {
 #testTimer {
   font-size: 80pt;
   text-align: center;
+  color: #FF0000;
 }
 
 h3, #testNotif {
@@ -35,11 +44,18 @@ h3 {
   font-size: 18pt;
 }
 
+#board-section {
+  display: flex;
+  justify-content: center;
+}
+
 #board {
   margin: 0;
-  width: 66vw;
+  width: 50vw;
   flex-flow: row wrap;
   justify-content: center;
+  background-color: rgb(0, 11, 59);
+  border: 20px solid #FF0000;
 }
 
 #testDashboard {
@@ -52,8 +68,8 @@ h3 {
 }
 
 .board-slot {
-  height: 16vh;
-  width: 16vh;
+  height: 12vh;
+  width: 12vh;
   stroke-width: 3;
   background-color: #0023B9;
   margin: 0 auto;
@@ -61,9 +77,14 @@ h3 {
 }
 
 /* Color de los slots en el tablero */
-svg path, svg polygon, svg circle, svg rect#rect3926, svg rect#rect3890 {
+svg.slot--empty path, svg.slot--empty polygon, svg.slot--empty circle, svg.slot--empty rect#rect3926, svg.slot--empty rect#rect3890 {
   stroke: rgb(0, 5, 27) !important;
   fill: rgb(0, 11, 59) !important; /*Necesario para que cambie de color*/
+}
+
+svg.slot--full path, svg.slot--full polygon, svg.slot--full circle, svg.slot--full rect#rect3926, svg.slot--full rect#rect3890 {
+  stroke: rgb(0, 5, 27) !important;
+  fill: #FFC300 !important; /*Necesario para que cambie de color*/
 }
 /* 
 svg {

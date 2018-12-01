@@ -66,10 +66,11 @@ Board.prototype.setSlot = function(player) {
 }
 
 //TODO: remove because this is a test function
-Board.prototype.selectSlot = function(index) {
-  this.selectedSlot = this.slots[index];
+Board.prototype.selectSlot = function(svgid) {
+  let ids = this.slots.map(el => el.id);
+  this.selectedSlot = this.slots[ids.indexOf(svgid)];
   let notifNode = document.getElementById("testNotif");
-  notifNode.innerHTML = `The board has ${this.slots[index].description} selected`; //¿O usar textNode?
+  notifNode.innerHTML = `The board has ${this.selectedSlot.description} selected`; //¿O usar textNode?
 }
 
 function Player(name, color, number) {
@@ -89,6 +90,7 @@ through DOM interactions */
 Player.prototype.grabPiece = function(game, index) {
   this.heldPiece = game.availablePieces[index];
   selectedPiece(this.heldPiece); //For graphic display
+  gridListeners(game);
 }
 
 //TODO: complete
@@ -130,6 +132,7 @@ function Game(mode, pieces) {
   this.mode = mode; //1P Classic, 1P Easy, 2P
   this.availablePieces = pieces;
   this.checkedPieces = [];
+  this.listenersSet = false;
 }
 
 Game.prototype.buildParameters = function() {
@@ -253,6 +256,42 @@ function sample(array, size) {
   }
 }
 
+//Super special thanks to Drew Baker and Henrik Albrechtsson 
+//https://stackoverflow.com/questions/11978995/how-to-change-color-of-svg-image-using-css-jquery-svg-image-replacement/11978996
+function imgToSvg() {
+  // let piezas = document.querySelectorAll('.board-slot');
+  // piezas.forEach(el => {
+  //   let img = el;
+  //   let attrNames = img.getAttributeNames();
+  //   let attrValues = attrNames.map(ie => el.getAttribute(ie));
+
+  //   console.log(attrValues);
+  //   el.addEventListener("onload", gridListeners(testGame));
+  // });
+  // piezas.forEach()
+  $('img[src$=".svg"]').each(function () {
+    var $img = jQuery(this);
+    var imgURL = $img.attr('src');
+    var attributes = $img.prop("attributes");
+
+     $.get(imgURL, function (data) {
+       // Get the SVG tag, ignore the rest
+       var $svg = jQuery(data).find('svg');
+
+       // Remove any invalid XML tags
+       $svg = $svg.removeAttr('xmlns:a');
+
+       // Loop through IMG attributes and apply on SVG
+       $.each(attributes, function () {
+         $svg.attr(this.name, this.value);
+       });
+
+       // Replace IMG with SVG
+       $img.replaceWith($svg);
+     }, 'xml');
+   });
+}
+
 /* Game-specific functions */
 function prepContainers(game) {
   //Declare variables
@@ -318,16 +357,28 @@ function fillGrid(game) {
   for (let j = 0; j < boardNode.children.length; j++) {
     //Iterate over cells
     for (let i = 0; i < colLength; i++) {
-      cellNode = document.createElement("td");
+      cellNode = document.createElement("div");
       cellNode.setAttribute("class", "slot slot--empty");
-      svg = document.createElement("img");
-      svg.setAttribute("class", "svg board-slot");
-      svg.setAttribute("src", game.board.slots[j*colLength+i].boxPath);
-      cellNode.appendChild(svg);
+      //V2
+      cellNode.appendChild(gridImgs[j*colLength+i]);
+      //V1
+      // svg = document.createElement("img");
+      // svg.setAttribute("id", `svg${game.board.slots[j*colLength+i].id}`);
+      // svg.setAttribute("class", "svg board-slot");
+      // svg.setAttribute("src", game.board.slots[j*colLength+i].boxPath);
+      // cellNode.appendChild(svg);
+      //V0
       // cellNode.innerHTML = `${j*colLength+i}. ${game.board.slots[j*colLength+i].description}`;
       boardNode.children[j].appendChild(cellNode);
     }
   }
+  imgToSvg();
+  /*Set up listeners for selected slot */
+  // setTimeout(gridListeners(testGame),2000);
+  // gridListeners(testGame);
+  //Event listener para que cada imagen, cuando esté cargada, ejecute el event
+  //Poner imágenes en arreglo, cargarlas y dar event listener a cada uno de ellos
+  //Image
 }
 
 function gfxUpdate(game) {
@@ -361,7 +412,10 @@ function placedPiece(piece, game) {
   notifNode.innerHTML = `You placed ${piece.description},
                          it's currently in board slot ${game.board.slots.indexOf(piece)}`;
   //This strikes through the piece and sets font to gray
-  board.children[col].children[row].setAttribute("class", "slot--full"); //Refer to test.css
+  let fullPiece = document.getElementById(piece.id);
+  fullPiece.setAttribute("class", "svg board-slot slot--full");
+  //board.children[col].children[row].children[0].setAttribute("class", "svg board-slot slot--full"); //Refer to test.css
+  //node.setAttribute("class", "svg board-slot slot--full");
 }
 
 //TODO: Upgrade this
@@ -408,21 +462,6 @@ function testListeners() {
   }
   
   piecesListeners(testGame);
-
-  /*Set up listeners for selected slot */
-  let board = document.getElementById("board");
-  size = testGame.board.slots.length;
-  rowLength = Math.sqrt(size);
-  for (let i = 0; i < rowLength; i++) {
-    for (let j = 0; j < rowLength; j++) {
-      let node = board.children[i].children[j];
-      node.onclick = function() {
-        let ind = parseInt(node.innerHTML.split(".")[0]); //TODO: Actualizar esto
-        testGame.board.selectSlot(ind);
-        testGame.players[0].placePiece(testGame);
-      }
-    }
-  }
 }
 
 function piecesListeners(game) { //TODO: Actualizar esto
@@ -439,6 +478,23 @@ function piecesListeners(game) { //TODO: Actualizar esto
       }
     }
   }
+}
+
+function gridListeners(game) {
+    let board = document.getElementById("board");
+    size = game.board.slots.length;
+    rowLength = Math.sqrt(size);
+    for (let i = 0; i < rowLength; i++) {
+      for (let j = 0; j < rowLength; j++) {
+        let node = board.children[i].children[j].children[0];
+        let svgid = node.id;
+        node.onclick = function() {
+          testGame.board.selectSlot(svgid);
+          testGame.players[0].placePiece(testGame);
+        }
+      }
+    }
+  this.listenersSet = true;
 }
 
 function keyboardListeners() { //Quizás actualizar esto
