@@ -264,7 +264,7 @@ function prepContainers(game) {
     col = document.createElement("div");
     boardCol = document.createElement("div");
     col.setAttribute("class", "col");
-    boardCol.setAttribute("class", "col");    
+    boardCol.setAttribute("class", "col"); 
     piecesNode.appendChild(col);
     boardNode.appendChild(boardCol);
   }
@@ -313,14 +313,18 @@ function setAvailablePieces(game) {
 function fillGrid(game) {
   let boardNode = document.getElementById("board");
   let colLength = game.board.rows;
-  let cellNode;
+  let cellNode, svg;
   //Iterate over cols
   for (let j = 0; j < boardNode.children.length; j++) {
     //Iterate over cells
     for (let i = 0; i < colLength; i++) {
-      cellNode = document.createElement("div");
-      cellNode.setAttribute("class", "slot slot--empty")
-      cellNode.innerHTML = `${j*colLength+i}. ${game.board.slots[j*colLength+i].description}`;
+      cellNode = document.createElement("td");
+      cellNode.setAttribute("class", "slot slot--empty");
+      svg = document.createElement("img");
+      svg.setAttribute("class", "svg board-slot");
+      svg.setAttribute("src", game.board.slots[j*colLength+i].boxPath);
+      cellNode.appendChild(svg);
+      // cellNode.innerHTML = `${j*colLength+i}. ${game.board.slots[j*colLength+i].description}`;
       boardNode.children[j].appendChild(cellNode);
     }
   }
@@ -413,7 +417,7 @@ function testListeners() {
     for (let j = 0; j < rowLength; j++) {
       let node = board.children[i].children[j];
       node.onclick = function() {
-        let ind = parseInt(node.innerHTML.split(".")[0]);
+        let ind = parseInt(node.innerHTML.split(".")[0]); //TODO: Actualizar esto
         testGame.board.selectSlot(ind);
         testGame.players[0].placePiece(testGame);
       }
@@ -421,7 +425,7 @@ function testListeners() {
   }
 }
 
-function piecesListeners(game) {
+function piecesListeners(game) { //TODO: Actualizar esto
   /* Set up listeners for selected piece*/
   let pieces = document.getElementById("availablePieces");
   let size = game.availablePieces.length;
@@ -437,7 +441,7 @@ function piecesListeners(game) {
   }
 }
 
-function keyboardListeners() {
+function keyboardListeners() { //Quizás actualizar esto
   document.onkeydown = function(e) {
     switch (e.keyCode) {
       case 37: //left TODO: Refactor to avoid dependency on test

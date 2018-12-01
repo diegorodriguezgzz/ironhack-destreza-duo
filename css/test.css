@@ -35,6 +35,13 @@ h3 {
   font-size: 18pt;
 }
 
+#board {
+  margin: 0;
+  width: 66vw;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
 #testDashboard {
   margin: 10px auto;
 }
@@ -45,14 +52,16 @@ h3 {
 }
 
 .board-slot {
-  height: 100px;
-  width: 100px;
+  height: 16vh;
+  width: 16vh;
   stroke-width: 3;
   background-color: #0023B9;
-  margin: 0;
+  margin: 0 auto;
+  padding: 0;
 }
 
-svg path {
+/* Color de los slots en el tablero */
+svg path { 
   stroke: rgb(0, 5, 27) !important;
   fill: rgb(0, 11, 59) !important; /*Necesario para que cambie de color*/
 }
