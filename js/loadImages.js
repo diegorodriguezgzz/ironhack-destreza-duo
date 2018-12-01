@@ -15,5 +15,7 @@ for (let i = 0; i < 25; i++) {
 let pieceImgs = [];
 for (let i = 0; i < 25; i++) {
   pieceImgs.push(new Image);
+  pieceImgs[i].setAttribute("id", `${pieces[i].id}-piece`);
   pieceImgs[i].src = pieces[i].path;
+  pieceImgs[i].setAttribute("class", "svg piece piece--unselected");
 }

@@ -20,22 +20,22 @@ body {
 }
 
 #timerContainer {
-  height: 150px;
+  height: 12vh;
 }
 
 #testTimer {
-  font-size: 80pt;
+  font-size: 50pt;
   text-align: center;
   color: #FF0000;
 }
 
 h3, #testNotif {
-  font-size: 28pt;
+  font-size: 14pt;
   text-align: center;
 }
 
 h3 {
-  margin: 5vh;
+  margin: 0;
 }
 
 #board, #testDashboard, #availablePieces {
@@ -51,7 +51,7 @@ h3 {
 
 #board {
   margin: 0;
-  width: 50vw;
+  width: 52vh; /*This is on purpose*/
   flex-flow: row wrap;
   justify-content: center;
   background-color: rgb(0, 11, 59);
@@ -68,12 +68,27 @@ h3 {
 }
 
 .board-slot {
-  height: 12vh;
-  width: 12vh;
+  height: 10vh;
+  width: 10vh;
   stroke-width: 3;
   background-color: #0023B9;
   margin: 0 auto;
   padding: 0;
+}
+
+svg.piece {
+  height: 6vh;
+}
+
+/*Color de las piezas fuera del tablero*/
+svg.piece--unselected path, svg.piece--unselected polygon, svg.piece--unselected circle, svg.piece--unselected rect#rect3926, svg.piece--unselected rect#rect3890 {
+  stroke: rgb(0, 5, 27) !important;
+  fill: #777777 !important; /*Necesario para que cambie de color*/
+}
+
+svg.piece--selected path, svg.piece--selected polygon, svg.piece--selected circle, svg.piece--selected rect#rect3926, svg.piece--selected rect#rect3890 {
+  stroke: rgb(0, 5, 27) !important;
+  fill: #FFC300 !important; /*Necesario para que cambie de color*/
 }
 
 /* Color de los slots en el tablero */

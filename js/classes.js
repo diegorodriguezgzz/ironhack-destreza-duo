@@ -87,8 +87,8 @@ Effect: Sets a reference to that piece from Player
 The game is a hard parameter, whereas the index will be passed
 through DOM interactions */
 //Seems to work well
-Player.prototype.grabPiece = function(game, index) {
-  this.heldPiece = game.availablePieces[index];
+Player.prototype.grabPiece = function(game, pieceid) {
+  this.heldPiece = game.availablePieces.filter(el => el.id === pieceid)[0];
   selectedPiece(this.heldPiece); //For graphic display
   gridListeners(game);
 }
@@ -103,7 +103,9 @@ Player.prototype.placePiece = function(game) {
           )[0] //So this returns an element and not a full array
         ) //Just move the one piece from one array to the other
       placedPiece(this.heldPiece, game);//Notify the player
-      setAvailablePieces(game);
+      console.log(`${this.heldPiece.id}`)
+      let pieceDiv = document.getElementById(`${this.heldPiece.id}-piece`);
+      pieceDiv.parentNode.outerHTML=""; //Delete the element
       piecesListeners(game);
       if(game.checkFinished(game.board)) {
         game.checkWinner();
@@ -258,17 +260,7 @@ function sample(array, size) {
 
 //Super special thanks to Drew Baker and Henrik Albrechtsson 
 //https://stackoverflow.com/questions/11978995/how-to-change-color-of-svg-image-using-css-jquery-svg-image-replacement/11978996
-function imgToSvg() {
-  // let piezas = document.querySelectorAll('.board-slot');
-  // piezas.forEach(el => {
-  //   let img = el;
-  //   let attrNames = img.getAttributeNames();
-  //   let attrValues = attrNames.map(ie => el.getAttribute(ie));
-
-  //   console.log(attrValues);
-  //   el.addEventListener("onload", gridListeners(testGame));
-  // });
-  // piezas.forEach()
+function imgToSvg() { //TODO: Use event listener to handle loading properly
   $('img[src$=".svg"]').each(function () {
     var $img = jQuery(this);
     var imgURL = $img.attr('src');
@@ -330,6 +322,7 @@ function setAvailablePieces(game) {
   let cells = game.availablePieces.length;
   let cols = Math.ceil(cells / colLength);
   let remainder = (cells % colLength === 0) ? colLength : cells % colLength;
+  let svgs = pieceImgs.filter(el => game.availablePieces.map(ie => ie.id).indexOf(el.id.slice(0,2))!== -1);
   let cellNode;
   //Iterate over cols
   for (let i = 0; i < cols; i++) {
@@ -337,48 +330,32 @@ function setAvailablePieces(game) {
     piecesNode.children[i].innerHTML = "";
     for (let j = 0; j < ((i === cols-1) ? remainder : colLength); j++) {
       cellNode = document.createElement("div");
-      cellNode.setAttribute("class", "piece piece--available")
-      cellNode.innerHTML = `${i*colLength+j}. ${game.availablePieces[i*colLength+j].description}`;
+      cellNode.setAttribute("class", "piece--available");
+      let svg = svgs[svgs.map(el => el.id.slice(0,2))
+        .indexOf(game.availablePieces[j*colLength+i].id)];
+      cellNode.appendChild(svg);
       piecesNode.children[i].appendChild(cellNode);
     }
-  }
-
-  //Clean rows which were not updated due to past conditions TODO: Consider refactoring
-  for (let k = colLength-1; k > cols-1; k--) {
-    piecesNode.children[k].innerHTML = "";
   }
 }
 
 function fillGrid(game) {
   let boardNode = document.getElementById("board");
   let colLength = game.board.rows;
-  let cellNode, svg;
+  let cellNode;
+  let boardImgs = gridImgs.filter(el => game.board.slots.map(ie => ie.id).indexOf(el.id)!== -1);
   //Iterate over cols
   for (let j = 0; j < boardNode.children.length; j++) {
     //Iterate over cells
     for (let i = 0; i < colLength; i++) {
       cellNode = document.createElement("div");
       cellNode.setAttribute("class", "slot slot--empty");
-      //V2
-      cellNode.appendChild(gridImgs[j*colLength+i]);
-      //V1
-      // svg = document.createElement("img");
-      // svg.setAttribute("id", `svg${game.board.slots[j*colLength+i].id}`);
-      // svg.setAttribute("class", "svg board-slot");
-      // svg.setAttribute("src", game.board.slots[j*colLength+i].boxPath);
-      // cellNode.appendChild(svg);
-      //V0
-      // cellNode.innerHTML = `${j*colLength+i}. ${game.board.slots[j*colLength+i].description}`;
+      cellNode.appendChild(boardImgs[boardImgs.map(el => el.id)
+        .indexOf(game.board.slots[j*colLength+i].id)]);
       boardNode.children[j].appendChild(cellNode);
     }
   }
   imgToSvg();
-  /*Set up listeners for selected slot */
-  // setTimeout(gridListeners(testGame),2000);
-  // gridListeners(testGame);
-  //Event listener para que cada imagen, cuando esté cargada, ejecute el event
-  //Poner imágenes en arreglo, cargarlas y dar event listener a cada uno de ellos
-  //Image
 }
 
 function gfxUpdate(game) {
@@ -397,9 +374,27 @@ function createPlayer(playerNumber) {
 
 function selectedPiece(piece) {
   keyboardListeners();
+  dehighlightPieces();
+  highlightPiece(piece);
   let notifNode = document.getElementById("testNotif");
   notifNode.innerHTML = `You selected ${piece.description},
                          it's currently in position ${piece.position}`; //¿O usar textNode?
+}
+
+function highlightPiece(piece) {
+  let id = piece.id;
+  let node = document.getElementById(`${id}-piece`);
+  node.setAttribute("class", "svg piece piece--selected");
+}
+
+//Just choose one piece
+function dehighlightPieces() {
+  let piecesCollection = document.getElementById("availablePieces");
+  for (let i = 0; i < piecesCollection.children.length; i++) {
+    for (let j = 0; j < piecesCollection.children[i].children.length; j++) {
+      piecesCollection.children[i].children[j].children[0].setAttribute("class", "svg piece piece--unselected");
+    }
+  }
 }
 
 function placedPiece(piece, game) {
@@ -422,22 +417,19 @@ function placedPiece(piece, game) {
 function wrongPiece() {
   let notifNode = document.getElementById("testNotif");
   notifNode.innerHTML = "Wrong piece!!"; //¿O usar textNode?
+  dehighlightPieces();
 }
 
 //TODO: Upgrade this
 function wrongRot() {
   let notifNode = document.getElementById("testNotif");
   notifNode.innerHTML = "It didn't quite fit in..."; //¿O usar textNode?
+  dehighlightPieces();
 }
 
 //TODO: Build this
 function wrongTone() {
   //Play audio with wrong tone
-}
-
-//TODO: Build this
-function updateHighlights() {
-
 }
 
 function gameOver() {
@@ -447,7 +439,7 @@ function gameOver() {
 function testListeners() {
   let rlButton = document.getElementById("rotLeft");
   let rrButton = document.getElementById("rotRight");
-  let plButton = document.getElementById("placePiece");
+  let stButton = document.getElementById("start");
 
   rlButton.onclick = function() {
     testGame.players[0].heldPiece.rotateLeft();
@@ -457,11 +449,9 @@ function testListeners() {
     testGame.players[0].heldPiece.rotateRight();
   }
 
-  plButton.onclick = function() {
-    testGame.players[0].placePiece(testGame);
+  stButton.onclick = function() {
+    start();
   }
-  
-  piecesListeners(testGame);
 }
 
 function piecesListeners(game) { //TODO: Actualizar esto
@@ -473,8 +463,8 @@ function piecesListeners(game) { //TODO: Actualizar esto
     for (let j = 0; j < pieces.children[i].children.length; j++) { //¿Ya?
       let node = pieces.children[i].children[j];
       node.onclick = function() {
-        let ind = parseInt(node.innerHTML.split(".")[0]);
-        game.players[0].grabPiece(game, ind); //¿Cómo agarrar el player?
+        let pieceid = node.children[0].id.slice(0,2);
+        game.players[0].grabPiece(game, pieceid); //¿Cómo agarrar el player?
       }
     }
   }
@@ -508,4 +498,8 @@ function keyboardListeners() { //Quizás actualizar esto
         break;
     }
   }
+}
+
+function start() {
+  piecesListeners(testGame);
 }
