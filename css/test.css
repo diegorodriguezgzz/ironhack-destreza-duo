@@ -1,3 +1,11 @@
+/* Colors:  
+  Blue (board): #0023B9
+  Yellow (piece): #FFC300
+  Red: #FF0000
+  Gray: #777777
+*/
+
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -12,27 +20,65 @@ body {
 }
 
 #timerContainer {
-  height: 150px;
+  height: 12vh;
 }
 
 #testTimer {
-  font-size: 80pt;
+  font-size: 50pt;
   text-align: center;
+  color: #FF0000;
 }
 
 h3, #testNotif {
-  font-size: 28pt;
+  font-size: 14pt;
   text-align: center;
 }
 
 h3 {
-  margin: 5vh;
+  margin: 0;
 }
 
 #board, #testDashboard, #availablePieces {
   display: flex;
   justify-content: space-around;
   font-size: 18pt;
+}
+
+#board-section {
+  display: flex;
+  justify-content: center;
+}
+
+#start {
+  height: 8vh;
+  width: 8vw;
+  background-color: #FF0000;
+  color: #FFFFFF;
+  border: 5px solid #000000;
+  font-size: 16pt;
+}
+
+.rot-div {
+  display: flex;
+  width: 25vw;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.rot-div button {
+  height: 5vh;
+  background-color: #FFC300;
+  border: 3px solid #0023B9;
+  color: #000000;
+}
+
+#board {
+  margin: 0;
+  width: 52vh; /*This is on purpose*/
+  flex-flow: row wrap;
+  justify-content: center;
+  background-color: rgb(0, 11, 59);
+  border: 20px solid #FF0000;
 }
 
 #testDashboard {
@@ -42,4 +88,59 @@ h3 {
 .slot--full {
   color: #777777;
   text-decoration: line-through;
+}
+
+.board-slot {
+  height: 10vh;
+  width: 10vh;
+  stroke-width: 3;
+  background-color: #0023B9;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.piece--hidden {
+  display: none;
+}
+
+svg.piece {
+  height: 6vh;
+}
+
+svg.piece--selected {
+  height: 10vh;
+}
+
+svg.piece--rot1 {
+  transform: rotate(90deg);
+}
+
+svg.piece--rot2 {
+  transform: rotate(180deg);
+}
+
+svg.piece--rot3 {
+  transform: rotate(270deg);
+}
+
+/*Color de las piezas fuera del tablero*/
+svg.piece--unselected path, svg.piece--unselected polygon, svg.piece--unselected circle, svg.piece--unselected rect#rect3926, svg.piece--unselected rect#rect3890 {
+  stroke: rgb(0, 5, 27) !important;
+  fill: #777777 !important; /*Necesario para que cambie de color*/
+}
+
+svg.piece--selected path, svg.piece--selected polygon, svg.piece--selected circle, svg.piece--selected rect#rect3926, svg.piece--selected rect#rect3890 {
+  stroke: rgb(0, 5, 27) !important;
+  fill: #FFC300 !important; /*Necesario para que cambie de color*/
+}
+
+/* Color de los slots en el tablero */
+svg.slot--empty path, svg.slot--empty polygon, svg.slot--empty circle, svg.slot--empty rect#rect3926, svg.slot--empty rect#rect3890 {
+  stroke: rgb(0, 5, 27) !important;
+  fill: rgb(0, 11, 59) !important; /*Necesario para que cambie de color*/
+}
+
+svg.slot--full path, svg.slot--full polygon, svg.slot--full circle, svg.slot--full rect#rect3926, svg.slot--full rect#rect3890 {
+  stroke: rgb(0, 5, 27) !important;
+  fill: #FFC300 !important; /*Necesario para que cambie de color*/
 }

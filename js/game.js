@@ -14,12 +14,6 @@ Set players
 /* Set up game*/
 
 //Consider outright using a flat array in first place to improve performance
-//Flatten pieces array for easy shuffling and sampling
-pieces = pieces[0].concat(pieces[1],pieces[2],pieces[3],pieces[4]);
-
-//Bind class to collection of pieces
-pieces = pieces.map(el => new Piece(el.id, el.description, el.syms, el.rots, el.color));
-
 //Test mode:
 //Generate 3x3 board
 // testGame = new Game("Solo", pieces);
@@ -30,6 +24,6 @@ pieces = pieces.map(el => new Piece(el.id, el.description, el.syms, el.rots, el.
 
 // //Players
 // tester = new Player("Test", "#FF0000", 1);
-let mode = prompt("Which mode will you play? 1P Easy / 1P Classic / 2P", "1P Test");
+let mode = prompt("Which mode will you play? 1P Easy / 1P Classic / 2P", "1P Easy");
 testGame = new Game(mode, pieces);
 testGame.beginGame();

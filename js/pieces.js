@@ -13,7 +13,7 @@ let rowA = [
     description: "Semicircle",
     syms: 1, //Symmetries determine rotation array
     rots: [0], //If current rotation is in rots, then the piece enters,
-    color: "#777777"
+    color: "#777777",
   },
   {
     id: "2A",
@@ -116,7 +116,7 @@ let rowC = [
     id: "5C",
     description: "Inverted-tilde",
     syms: 1,
-    rots: [0],
+    rots: [0, 2],
     color: "#777777"
   },
 ];
