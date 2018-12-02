@@ -17,5 +17,6 @@ for (let i = 0; i < 25; i++) {
   pieceImgs.push(new Image);
   pieceImgs[i].setAttribute("id", `${pieces[i].id}-piece`);
   pieceImgs[i].src = pieces[i].path;
-  pieceImgs[i].setAttribute("class", "svg piece piece--unselected");
+  pieceImgs[i].setAttribute("class", `svg piece piece--unselected piece--rot${pieces[i].position}`);
 }
+//TODO: Ver si puedo mover esto y convertirlo en svg desde acá

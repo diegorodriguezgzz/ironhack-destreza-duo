@@ -1,5 +1,7 @@
 #Diario de desarrollo
+
 ##Intro
+
 Hoy, 1 de diciembre de 2018, inicio este diario de desarrollo en el que expondré
 el camino que tomó mi proyecto desde su inicio a la fecha, y que espero seguir
 actualizando con cada sesión de programación.
@@ -7,6 +9,7 @@ actualizando con cada sesión de programación.
 Para comenzar, resumiré qué ha pasado hasta ahora.
 
 ###Concepción del proyecto
+
 Inicialmente, contemplé varias alternativas para desarrollar. Me interesaba mucho
 hacer algo como Paperboy, el juego clásico de NES, o quizás un juego de carreras.
 
@@ -28,6 +31,7 @@ suelen recordarme ante cada oportunidad lo horrible que es mi caligrafía.
 Pues sí, podría hacer **Destreza**.
 
 ###Presentación del proyecto
+
 Ya había masticado un poco el concepto antes de lanzarme a hacer la presentación.
 
 Leí cuáles eran los entregables esperados en la *learning* del portal de Ironhack
@@ -60,7 +64,8 @@ estudiantes del bootcamp.
 Ante la aprobación de la audiencia y los instructores, decidí continuar con el
 proyecto.
 
-###Planeación del proyecto
+###Planeación del proyecto###
+
 Pese a que nos habían solicitado que le diéramos una pensada a cómo estructurar
 el trabajo y resolver los problemas, no lo hice sino hasta la siguiente sesión,
 el martes (*tachita*), aunque ya había reflexionado un poco al respecto.
@@ -136,13 +141,16 @@ el shuffle que usamos (Fisher-Yates) ya lo había visto para uno de los ejercici
 previos en Ironhack, por lo que no batallé para implementarlo.
 
 ####29 de noviembre de 2018
+
 #####Qué hice
+
 - Terminar el desarrollo de los métodos básicos de mis clases
 - Hacer muchas pruebas
 - Una interfaz de texto en el DOM, muy básica
 - Integrar un juego de prueba básico, con un intervalo "vivo"
 
 #####Con qué batallé y cómo lo solucioné
+
 - El intervalo no estaba funcionando adecuadamente
 Don Stack Overflow tiene muchas soluciones, y consulté blogs de varios
 programadores (a quienes daría crédito pero honestamente no recuerdo cuál era
@@ -169,6 +177,7 @@ cada pieza, por lo que reconfiguré *onclicks* en cada pieza y las reacomodé en
 *divs* adentro de un contenedor con flex.
 
 #####Qué aprendí
+
 Resultó que *flexbox* es una herramienta natural para el desarrollo de un juego
 como éste, y armar mis pruebas en el DOM con *flexbox* influyó la dirección del
 desarrollo posterior.
@@ -180,7 +189,9 @@ el desarrollo de UX, precisamente para poder validar la lógica más rápido.
 Resolví que el siguiente día cerraría la brecha un poco más.
 
 ####30 de noviembre de 2018
+
 #####Qué hice
+
 - Flexibilicé las pruebas en el DOM para que funcionaran para cualquier dimensión
 - Agregué métodos *onkeydown* para rotar las piezas (*huge time saver*)
 - Agregué el tablero completo en modo de texto dentro de *flexbox*
@@ -191,6 +202,7 @@ Resolví que el siguiente día cerraría la brecha un poco más.
 - También monté GitHub Pages, donde vergonzosamente sigue mi prueba fea a la fecha
 
 #####Con qué batallé y cómo lo solucioné
+
 - GIMP está orientado a raster así que no graba SVGs por sí solo
 Descargué **Inkscape** para manipular los SVGs. Me ayudó mucho usar los *shortcuts*
 del teclado.
@@ -224,6 +236,7 @@ Una vez que me zambullí a la fuente, todo fue claro, y me acerqué un paso más
 ascender a mi forma pura de energía y código.
 
 #####Qué aprendí
+
 Dios mío, que es bueno tener a gente paciente que te escucha y no te juzga por
 cometer errores. Toda la razón por la cual quería usar SVGs es porque tenía la
 idea de que podría hacer muchas cosas interesantes con transiciones y
@@ -241,7 +254,9 @@ muy fácil en gran parte por mi disposición previa a meterme a ver código fuen
 de cosas que no fueron hechas por mí.
 
 ####1 de diciembre de 2018
+
 #####Qué hice
+
 - Extender el uso de SVGs en mi código
 - Colorear mejor mis SVGs
 - Mejorar el layout de mi tablero en el DOM
@@ -249,6 +264,7 @@ de cosas que no fueron hechas por mí.
 - Comencé esta bitácora
 
 #####Con qué batallé y cómo lo solucioné
+
 - Para este momento, mi código ya era muy largo y confuso
 Changos, yo que soy bien obsesivo con la concisión y legibilidad (y para lo que
 francamente batallo mucho) no quedé nada contento con esto. Además, cuando quería
@@ -272,13 +288,13 @@ conversión de las tags img a svg—que tarda tantito—no termina antes que el 
 de mi código.
 
 Esto significa que el *loop* que había armado para montar *onclicks* en cada uno 
-de los huecos del tablero los aplicaba a las tags <img> y no a los <svg>... y por
-ende, los <svg> no respondían a nada. Changos.
+de los huecos del tablero los aplicaba a las tags *img* y no a los *svg*... y por
+ende, los *svg* no respondían a nada. Changos.
 
 Germán me recomendó probar cargar las imágenes desde JS como objetos en lugar de
 insertarlos al HTML con tags. Eso permitiría que las imágenes se cargaran antes y
 no tendría problemas para montar los *onclick* después. Sin embargo, la bronca no
-era con <img>, sino con la conversión a <svg>, y cuando implemente la sugerencia
+era con *img*, sino con la conversión a *svg*, y cuando implemente la sugerencia
 de Germán, en realidad me quedé donde mismo. Mmmmm, ¿qué hacer?.
 
 En mi frustración, me puse a probar desde consola el método, *en caliente*, y vi
@@ -297,8 +313,8 @@ seleccionara qué tipo de juego quería jugar, pues tenía que hacer algo nuevo.
 
 Mi solución provisional fue colocar un botón de *start* y sólo colocar los
 *onclick* cuando el usuario picara ahí. Lo que voy a hacer en la versión final, 
-donde ya tendré menus de navegación y demás, es cargar los <img> y convertirlos a
-<svg> desde el momento en el que se sabe cuáles son, con display: hide y sólo
+donde ya tendré menus de navegación y demás, es cargar los *img* y convertirlos a
+*svg* desde el momento en el que se sabe cuáles son, con display: hide y sólo
 mostrarlos cuando el usuario dé "start game". Ni modo, en lo que aprendo más de
 JS, ésta tendrá que ser la solución.
 
@@ -316,6 +332,7 @@ su *outerHTML* en "". Esto funcionó de maravilla, y no tuve que volver a cargar
 nada ni volver a meter onclicks a objetos redibujados.
 
 #####Qué aprendí
+
 Antes que nada, estoy muy feliz de haber optado por hacer un nuevo branch para
 probar todo esto, porque probablemente me hubiera arrancado el cabello de estrés
 con la presión de hacer algo que rompiera mi código.
@@ -332,3 +349,20 @@ juego.
 La urgencia de tener claridad de mi proceso de desarrollo y las lecciones
 aprendidas también me llevó a armar este documento, y aprender algo de Markdown.
 Fue una buena primera semana de desarrollo, y hay que seguir *chambeando*.
+
+####2 de diciembre de 2018
+
+#####Qué hice
+- Reducir un poco el código
+- Incorporar rotación a las piezas
+- Intentar que las rotaciones lleven animación
+- Meter algunos sonidos
+- *Merge* svg-grid con master
+
+#####Con qué batallé y cómo lo solucioné
+- Las animaciones no me salieron
+Todavía no soluciono esto, pero espero hacerlo con el apoyo de mis compañeras que
+sí son diseñadoras.
+
+#####Qué aprendí
+Ya me siento más tranquilo que ayer, y creo que hay mucho progreso.

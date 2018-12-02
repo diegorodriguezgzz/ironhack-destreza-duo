@@ -116,7 +116,7 @@ let rowC = [
     id: "5C",
     description: "Inverted-tilde",
     syms: 1,
-    rots: [0],
+    rots: [0, 2],
     color: "#777777"
   },
 ];

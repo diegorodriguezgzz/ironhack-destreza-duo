@@ -49,6 +49,29 @@ h3 {
   justify-content: center;
 }
 
+#start {
+  height: 8vh;
+  width: 8vw;
+  background-color: #FF0000;
+  color: #FFFFFF;
+  border: 5px solid #000000;
+  font-size: 16pt;
+}
+
+.rot-div {
+  display: flex;
+  width: 25vw;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.rot-div button {
+  height: 5vh;
+  background-color: #FFC300;
+  border: 3px solid #0023B9;
+  color: #000000;
+}
+
 #board {
   margin: 0;
   width: 52vh; /*This is on purpose*/
@@ -76,8 +99,28 @@ h3 {
   padding: 0;
 }
 
+.piece--hidden {
+  display: none;
+}
+
 svg.piece {
   height: 6vh;
+}
+
+svg.piece--selected {
+  height: 10vh;
+}
+
+svg.piece--rot1 {
+  transform: rotate(90deg);
+}
+
+svg.piece--rot2 {
+  transform: rotate(180deg);
+}
+
+svg.piece--rot3 {
+  transform: rotate(270deg);
 }
 
 /*Color de las piezas fuera del tablero*/
@@ -101,7 +144,3 @@ svg.slot--full path, svg.slot--full polygon, svg.slot--full circle, svg.slot--fu
   stroke: rgb(0, 5, 27) !important;
   fill: #FFC300 !important; /*Necesario para que cambie de color*/
 }
-/* 
-svg {
-  fill: blue;
-} */

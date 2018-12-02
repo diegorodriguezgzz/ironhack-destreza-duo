@@ -60,17 +60,9 @@ Board.prototype.fillBoard = function() {
   this.slots = sample(pieces, boardSize);
 }
 
-//TODO: complete
-Board.prototype.setSlot = function(player) {
-  this.selectedSlot = player.clickedSlot; //Asegurarse que funcione
-}
-
-//TODO: remove because this is a test function
 Board.prototype.selectSlot = function(svgid) {
   let ids = this.slots.map(el => el.id);
   this.selectedSlot = this.slots[ids.indexOf(svgid)];
-  let notifNode = document.getElementById("testNotif");
-  notifNode.innerHTML = `The board has ${this.selectedSlot.description} selected`; //¿O usar textNode?
 }
 
 function Player(name, color, number) {
@@ -103,21 +95,25 @@ Player.prototype.placePiece = function(game) {
           )[0] //So this returns an element and not a full array
         ) //Just move the one piece from one array to the other
       placedPiece(this.heldPiece, game);//Notify the player
-      console.log(`${this.heldPiece.id}`)
       let pieceDiv = document.getElementById(`${this.heldPiece.id}-piece`);
       pieceDiv.parentNode.outerHTML=""; //Delete the element
       piecesListeners(game);
       if(game.checkFinished(game.board)) {
         game.checkWinner();
       } //And check if the game is over
+      else {
+        bing();
+      }
+        
   }
   else if (!this.heldPiece.checkRotation()) {
+    wrongTone();
     wrongRot();
   }
   else {//Mostrar mensaje de alerta
     wrongTone();
     wrongPiece();
-    updateHighlights();
+    dehighlightPieces(game);
   }
   //TODO: Check if this is the best solution
   this.heldPiece = null; //Regresar pieza a tablero en posición original
@@ -193,7 +189,7 @@ Game.prototype.beginGame = function() {
   }
   this.filterPieces(this.board);
   this.timer = new Chrono(this.modeParams.time);
-  this.interval = setInterval(update, 1000, this);
+  
   gfxSetup(this);
 }
 
@@ -212,8 +208,8 @@ Game.prototype.checkGameOver = function() {
 
 Game.prototype.checkWinner = function() {
   if (this.players.length === 1) {
-    alert("Congratulations, you won!");
     clearInterval(this.interval);
+    youWin();
   }
   else {
     //Check who, out of the available players, did best in the game
@@ -330,7 +326,7 @@ function setAvailablePieces(game) {
     piecesNode.children[i].innerHTML = "";
     for (let j = 0; j < ((i === cols-1) ? remainder : colLength); j++) {
       cellNode = document.createElement("div");
-      cellNode.setAttribute("class", "piece--available");
+      cellNode.setAttribute("class", "piece--available piece--hidden");
       let svg = svgs[svgs.map(el => el.id.slice(0,2))
         .indexOf(game.availablePieces[j*colLength+i].id)];
       cellNode.appendChild(svg);
@@ -356,6 +352,7 @@ function fillGrid(game) {
     }
   }
   imgToSvg();
+
 }
 
 function gfxUpdate(game) {
@@ -374,66 +371,87 @@ function createPlayer(playerNumber) {
 
 function selectedPiece(piece) {
   keyboardListeners();
-  dehighlightPieces();
+  dehighlightPieces(testGame);
   highlightPiece(piece);
-  let notifNode = document.getElementById("testNotif");
-  notifNode.innerHTML = `You selected ${piece.description},
-                         it's currently in position ${piece.position}`; //¿O usar textNode?
 }
 
 function highlightPiece(piece) {
   let id = piece.id;
+  let rotation = piece.position;
   let node = document.getElementById(`${id}-piece`);
-  node.setAttribute("class", "svg piece piece--selected");
+  node.setAttribute("class", `svg piece piece--selected piece--rot${rotation}`);
 }
 
 //Just choose one piece
-function dehighlightPieces() {
+function dehighlightPieces(game) {
   let piecesCollection = document.getElementById("availablePieces");
   for (let i = 0; i < piecesCollection.children.length; i++) {
     for (let j = 0; j < piecesCollection.children[i].children.length; j++) {
-      piecesCollection.children[i].children[j].children[0].setAttribute("class", "svg piece piece--unselected");
+      let id = piecesCollection.children[i].children[j].children[0].getAttribute("id").slice(0,2);
+      let rotation = game.availablePieces.filter(el => el.id === id)[0].position;
+      piecesCollection.children[i].children[j].children[0].setAttribute("class", 
+      `svg piece piece--unselected piece--rot${rotation}`);
+    }
+  }
+}
+
+function revealPieces() {
+  let piecesCollection = document.getElementById("availablePieces");
+  for (let i = 0; i < piecesCollection.children.length; i++) {
+    for (let j = 0; j < piecesCollection.children[i].children.length; j++) {
+      piecesCollection
+      .children[i]
+      .children[j]
+      .classList
+      .remove("piece--hidden")
     }
   }
 }
 
 function placedPiece(piece, game) {
   let notifNode = document.getElementById("testNotif");
-  let board = document.getElementById("board");
-  let slot = game.board.slots.indexOf(piece);
-  let rowLength = Math.sqrt(game.board.slots.length);
-  let col = Math.floor(slot/rowLength);
-  let row = slot % rowLength;
   notifNode.innerHTML = `You placed ${piece.description},
                          it's currently in board slot ${game.board.slots.indexOf(piece)}`;
-  //This strikes through the piece and sets font to gray
   let fullPiece = document.getElementById(piece.id);
   fullPiece.setAttribute("class", "svg board-slot slot--full");
-  //board.children[col].children[row].children[0].setAttribute("class", "svg board-slot slot--full"); //Refer to test.css
-  //node.setAttribute("class", "svg board-slot slot--full");
 }
 
 //TODO: Upgrade this
 function wrongPiece() {
   let notifNode = document.getElementById("testNotif");
   notifNode.innerHTML = "Wrong piece!!"; //¿O usar textNode?
-  dehighlightPieces();
+  dehighlightPieces(testGame);
 }
 
 //TODO: Upgrade this
 function wrongRot() {
   let notifNode = document.getElementById("testNotif");
   notifNode.innerHTML = "It didn't quite fit in..."; //¿O usar textNode?
-  dehighlightPieces();
+  dehighlightPieces(testGame);
 }
 
-//TODO: Build this
+function bing() {
+  //Play audio with tone of approval
+  let audio = new Audio("../assets/ping.wav");
+  audio.play();
+}
+
 function wrongTone() {
   //Play audio with wrong tone
+  let audio = new Audio("../assets/deny.wav");
+  audio.play();
 }
 
 function gameOver() {
+  let audio = new Audio("../assets/explosion.mp3");
+  audio.play();
   alert("¡Destreza!"); //TODO: Sustituir por animación chida
+}
+
+function youWin() {
+  let audio = new Audio("../assets/success.wav");
+  audio.play();
+  alert("Congratulations, you won!");
 }
 
 function testListeners() {
@@ -502,4 +520,6 @@ function keyboardListeners() { //Quizás actualizar esto
 
 function start() {
   piecesListeners(testGame);
+  testGame.interval = setInterval(update, 1000, testGame);
+  revealPieces();
 }
