@@ -432,25 +432,21 @@ function wrongRot() {
 
 function bing() {
   //Play audio with tone of approval
-  let audio = new Audio("../assets/ping.wav");
-  audio.play();
+  ping.play();
 }
 
 function wrongTone() {
   //Play audio with wrong tone
-  let audio = new Audio("../assets/deny.wav");
-  audio.play();
+  deny.play();
 }
 
 function gameOver() {
-  let audio = new Audio("../assets/explosion.mp3");
-  audio.play();
+  expl.play();
   alert("¡Destreza!"); //TODO: Sustituir por animación chida
 }
 
 function youWin() {
-  let audio = new Audio("../assets/success.wav");
-  audio.play();
+  success.play();
   alert("Congratulations, you won!");
 }
 
