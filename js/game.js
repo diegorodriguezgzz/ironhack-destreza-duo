@@ -24,6 +24,18 @@ Set players
 
 // //Players
 // tester = new Player("Test", "#FF0000", 1);
+
 let mode = prompt("Which mode will you play? 1P Easy / 1P Classic / 2P", "1P Easy");
 testGame = new Game(mode, pieces);
 testGame.beginGame();
+
+function restart() {
+  testGame.cleanInterval();
+  gfxReset();
+  mode = prompt("Which mode will you play? 1P Easy / 1P Classic / 2P", "1P Easy");
+  testGame = new Game(mode, pieces);
+  testGame.beginGame();
+  revealPieces();
+  piecesListeners(testGame);
+  testGame.makeInterval();
+}
