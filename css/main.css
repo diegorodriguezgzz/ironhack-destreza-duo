@@ -73,6 +73,35 @@ h3 {
   font-size: 18pt;
 }
 
+/* Recomendación: 
+Agregar border radius
+Cambiar color de border
+Font a Monserrat o algo suave y bonito
+Texto más chico en el botón
+Color: 
+
+    background-color: #1c49b9;
+    color: #FFFFFF;
+    font-size: 12pt;
+    border-radius: 10px;
+    padding: 20px;
+    line-height: 6pt;
+    border: 2px solid #767a86;
+}
+
+Cambiar los botones left y right por flat icon
+
+Para pantalla completa, poner las piezas a la izquierda del board
+en lugar de arriba
+
+Para instrucciones:
+Si es abierto por primera vez, que saque el folleto de 
+instrucciones, máximo dos slides
+
+Para animaciones:
+buscar animate.css de daneden
+*/
+
 .btn-start {
   height: 8vh;
   background-color: #FF0000;

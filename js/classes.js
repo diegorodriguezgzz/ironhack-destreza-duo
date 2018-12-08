@@ -196,6 +196,7 @@ Game.prototype.cleanInterval = function() {
 
 Game.prototype.filterPieces = function() { //Keep only the pieces that are relevant
   this.availablePieces = this.availablePieces.filter(el => this.board.slots.indexOf(el) !== -1);
+  this.originalPieces = this.availablePieces.slice(0, this.availablePieces.length);
 }
 
 Game.prototype.checkFinished = function() { //Solo
