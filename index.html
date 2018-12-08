@@ -6,46 +6,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- Test suite styles -->
-  <link rel="stylesheet" href="css/test.css">
+  <link rel="stylesheet" href="css/main.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <title>Destreza Duo</title>
 </head>
 
 <body>
-  <div id="timerContainer">
-    <h1 id="testTimer"></h1>
+  <div id="timer-container">
+    <h1 id="timer"></h1>
   </div>
-  <div class="rot-div">
-    <button id="rotLeft">Rotate left</button>
-    <button id="rotRight">Rotate right</button>
+  <div class="btn-container">
+    <button id="btn--rotate-left" class="btn-rotate">Rotate left</button>
+    <button id="btn--rotate-right" class="btn-rotate">Rotate right</button>
   </div>
   <h3>Available pieces</h3>
-  <div id="availablePieces">
-    <!-- This is filled from classes.js -> game.js -->
+  <div id="pieces-container">
+    <!-- This is filled from classes.js -> gameFunctions.js -> game.js -->
   </div>
-  <div id="testDashboard">
-    <button id="start">Start</button>
+  <div id="options-container">
+    <button id="start" class="btn-start">Start</button>
   </div>
-  <div id="notifContainer">
-    <h2 id="testNotif"></h2>
+  <div id="notif-container">
+    <h3 id="notification"></h3>
   </div>
   <h3>Board</h3>
-  <!-- Test grid for SVG manipulation-->
   <section id="board-section">
     <div id="board">
-      <!-- <tr class="row"> 
-        <td class="game-piece-container">
-          <img id="svg0" class="board-slot" src="/assets/1A-Semicircle-box.svg">
-        </td> ...-->
+    <!-- This is filled from classes.js -> gameFunctions.js -> game.js -->
     </div>
   </section>
   <script src="js/pieces.js"></script>
   <script src="js/classes.js"></script>
+  <script src="js/gameFunctions.js"></script>
   <script src="js/loadImages.js"></script>
   <script src="js/audios.js"></script>
   <script src="js/game.js"></script>
-  <!-- <script src="js/img-to-svg.js"></script> -->
 </body>
 
 </html>

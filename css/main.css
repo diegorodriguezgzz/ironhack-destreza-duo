@@ -1,0 +1,252 @@
+/* Colors:  
+  Blue (button): #0023B9
+  Blue (piece border): #00051b
+  Blue (board): #000b3b
+  Yellow (piece): #FFC300
+  Red: #FF0000
+  Gray: #777777
+*/
+
+/* Tag styles */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h3 {
+  font-size: 14pt;
+  text-align: center;
+  margin: 0;
+}
+
+/*Containers & sections*/
+#timer-container, 
+#notif-container {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#timer-container {
+  height: 12vh;
+}
+
+.btn-container {
+  display: flex;
+  width: 50vw;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+#pieces-container {
+  width: 95vw;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 auto;
+}
+
+#options-container {
+  display: flex;
+  justify-content: space-around;
+  font-size: 18pt;
+  margin: 10px auto;
+}
+
+#board-section {
+  display: flex;
+  justify-content: center;
+}
+
+/* Objects */
+
+#timer {
+  font-size: 50pt;
+  text-align: center;
+  color: #FF0000;
+}
+
+#board {
+  display: flex;
+  justify-content: center;
+  font-size: 18pt;
+}
+
+/* Recomendación: 
+Agregar border radius
+Cambiar color de border
+Font a Monserrat o algo suave y bonito
+Texto más chico en el botón
+Color: 
+
+    background-color: #1c49b9;
+    color: #FFFFFF;
+    font-size: 12pt;
+    border-radius: 10px;
+    padding: 20px;
+    line-height: 6pt;
+    border: 2px solid #767a86;
+}
+
+Cambiar los botones left y right por flat icon
+
+Para pantalla completa, poner las piezas a la izquierda del board
+en lugar de arriba
+
+Para instrucciones:
+Si es abierto por primera vez, que saque el folleto de 
+instrucciones, máximo dos slides
+
+Para animaciones:
+buscar animate.css de daneden
+*/
+
+.btn-start {
+  height: 8vh;
+  background-color: #FF0000;
+  color: #FFFFFF;
+  border: 5px solid #000000;
+  font-size: 16pt;
+}
+
+.btn-restart {
+  height: 8vh;
+  background-color: #22FF22;
+  color: #FFFFFF;
+  border: 5px solid #000000;
+  font-size: 16pt;
+}
+
+.btn-rotate {
+  height: 5vh;
+  background-color: #FFC300;
+  border: 3px solid #0023B9;
+  color: #000000;
+}
+
+#board {
+  margin: 0;
+  width: 52vh; /*This is on purpose*/
+  flex-flow: row wrap;
+  justify-content: center;
+  background-color: #000b3b;
+  border: 20px solid #FF0000;
+}
+
+.board-slot {
+  height: 10vh;
+  width: 10vh;
+  stroke-width: 3;
+  background-color: #0023B9;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Game elements */
+
+.piece--hidden {
+  display: none;
+}
+
+svg.piece {
+  height: 6vh;
+}
+
+svg.piece--selected {
+  height: 10vh;
+}
+
+svg.piece--rot1 {
+  transform: rotate(270deg);
+}
+
+svg.piece--rot2 {
+  transform: rotate(180deg);
+}
+
+svg.piece--rot3 {
+  transform: rotate(90deg);
+}
+
+/*SVGs fill*/
+svg.piece--unselected path, 
+svg.piece--unselected polygon, 
+svg.piece--unselected circle, 
+svg.piece--unselected rect#rect3926, 
+svg.piece--unselected rect#rect3890 {
+  stroke: #00051b !important;
+  fill: #777777 !important; /*Necesario para que cambie de color*/
+}
+
+svg.piece--selected path, 
+svg.piece--selected polygon, 
+svg.piece--selected circle, 
+svg.piece--selected rect#rect3926, 
+svg.piece--selected rect#rect3890 {
+  stroke: #00051b !important;
+  fill: #FFC300 !important; /*Necesario para que cambie de color*/
+}
+
+/* Color de los slots en el tablero */
+svg.slot--empty path, 
+svg.slot--empty polygon, 
+svg.slot--empty circle, 
+svg.slot--empty rect#rect3926, 
+svg.slot--empty rect#rect3890 {
+  stroke: #00051b !important;
+  fill: #000b3b !important; /*Necesario para que cambie de color*/
+}
+
+svg.slot--full path, 
+svg.slot--full polygon, 
+svg.slot--full circle, 
+svg.slot--full rect#rect3926, 
+svg.slot--full rect#rect3890 {
+  stroke: #00051b !important;
+  fill: #FFC300 !important; /*Necesario para que cambie de color*/
+}
+
+@media only screen and (max-width : 767px) {
+  .pieces-container {
+    justify-content: center;
+  }
+  
+  .piece-column {
+    width: 18%;
+  }
+  
+  #timer {
+    font-size: 30pt;
+    }
+
+  .btn-rotate {
+    height: 10vh;
+    }
+  
+  #board {
+    margin: 0;
+    width: 48vh; /*This is on purpose*/
+    flex-flow: row wrap;
+    justify-content: center;
+    background-color: #000b3b;
+    border: 20px solid #FF0000;
+    }
+  
+  .board-slot {
+    height: 8vh;
+    width: 8vh;
+    stroke-width: 3;
+    background-color: #0023B9;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  svg.piece {
+    height: 4vh;
+  }
+    
+  svg.piece--selected {
+    height: 7vh;
+  }
+}

@@ -1,6 +1,6 @@
-#Diario de desarrollo
+# Diario de desarrollo
 
-##Intro
+## Intro
 
 Hoy, 1 de diciembre de 2018, inicio este diario de desarrollo en el que expondré
 el camino que tomó mi proyecto desde su inicio a la fecha, y que espero seguir
@@ -8,7 +8,7 @@ actualizando con cada sesión de programación.
 
 Para comenzar, resumiré qué ha pasado hasta ahora.
 
-###Concepción del proyecto
+### Concepción del proyecto
 
 Inicialmente, contemplé varias alternativas para desarrollar. Me interesaba mucho
 hacer algo como Paperboy, el juego clásico de NES, o quizás un juego de carreras.
@@ -30,7 +30,7 @@ suelen recordarme ante cada oportunidad lo horrible que es mi caligrafía.
 
 Pues sí, podría hacer **Destreza**.
 
-###Presentación del proyecto
+### Presentación del proyecto
 
 Ya había masticado un poco el concepto antes de lanzarme a hacer la presentación.
 
@@ -64,7 +64,7 @@ estudiantes del bootcamp.
 Ante la aprobación de la audiencia y los instructores, decidí continuar con el
 proyecto.
 
-###Planeación del proyecto###
+### Planeación del proyecto
 
 Pese a que nos habían solicitado que le diéramos una pensada a cómo estructurar
 el trabajo y resolver los problemas, no lo hice sino hasta la siguiente sesión,
@@ -90,9 +90,12 @@ para trazar las piezas en SVG.
 
 Esto me dio tiempo de comenzar a trabajar en la lógica del juego. 
 
-###Desarrollo del proyecto
-####27 de noviembre, 2018
-#####Qué hice
+### Desarrollo del proyecto
+
+#### 27 de noviembre, 2018
+
+##### Qué hice
+
 - Planeación del proyecto
 - Solicité a María Teresa del Real apoyo con el trazado de las piezas.
 - Elaboré un catálogo de las piezas, fila por fila, con *object literals*
@@ -100,27 +103,36 @@ Esto me dio tiempo de comenzar a trabajar en la lógica del juego.
 - Mis clases son **Piece, Board, Game, Player y Chron**
 - Comencé con las funciones del prototipo de **Piece**
 
-#####Con qué batallé y cómo lo solucioné
+##### Con qué batallé y cómo lo solucioné
+
 - Batallé un poco con GitHub, porque no había hecho un README.md
+
 Se solucionó con un poco de gimnasia en la terminal.
 
-#####Qué aprendí
+##### Qué aprendí
+
 Tuve muy buena suerte, y mi planeación y experiencia previa me ayudaron a 
 evitar *bugs* y enfocarme en un desarrollo muy ágil de las clases.
 Fue un buen día y prácticamente todo salió bien.
 
-####28 de noviembre de 2018
-#####Qué hice
+#### 28 de noviembre de 2018
+
+##### Qué hice
+
 - Hice una primera separación de mi JS en tres archivos diferentes
 - Hice primeras pruebas con el buscador
 - Continué trabajo en los métodos asociados a cada clase
 - Incorporé acomodos aleatorios (*shuffle*) y muestreo para juegos chicos
 
-#####Con qué batallé y cómo lo solucioné
+##### Con qué batallé y cómo lo solucioné
+
 - No me di cuenta que le envié un tablero diferente al mío a María Teresa
+
 Las piezas eran las mismas, pero estaban en un orden diferente.
 Tuve que hacer un reacomodo para mantener consistencia.
+
 - En algunos momentos, con el *scope* de mis funciones
+
 Usar **Game** como clase envolvente que contiene todo lo demás fue muy
 útil, porque pude meter ahí todos los parámetros y las variables que son
 "globales" para el juego sin mucho problema, y cuando fuera pertinente, pasar
@@ -128,7 +140,8 @@ Usar **Game** como clase envolvente que contiene todo lo demás fue muy
 Como en Javascript los objetos se pasan por referencia y no por valor, esto me
 facilitó mucho la modificación de las propiedades en **Game**.
 
-#####Qué aprendí
+##### Qué aprendí
+
 En realidad Teresa me sorprendió y me entregó las piezas muy rápido; mi intención
 original era comentar con ella, en persona, qué iba a necesitar y en ese momento
 le iba a dar la imagen correcta. No fue un problema mayor, pero pudo haber sido
@@ -140,18 +153,19 @@ gasté tiempo viendo cómo implementar distribuciones aleatorias en Javascript, 
 el shuffle que usamos (Fisher-Yates) ya lo había visto para uno de los ejercicios
 previos en Ironhack, por lo que no batallé para implementarlo.
 
-####29 de noviembre de 2018
+#### 29 de noviembre de 2018
 
-#####Qué hice
+##### Qué hice
 
 - Terminar el desarrollo de los métodos básicos de mis clases
 - Hacer muchas pruebas
 - Una interfaz de texto en el DOM, muy básica
 - Integrar un juego de prueba básico, con un intervalo "vivo"
 
-#####Con qué batallé y cómo lo solucioné
+##### Con qué batallé y cómo lo solucioné
 
 - El intervalo no estaba funcionando adecuadamente
+
 Don Stack Overflow tiene muchas soluciones, y consulté blogs de varios
 programadores (a quienes daría crédito pero honestamente no recuerdo cuál era
 el bueno). 
@@ -163,6 +177,7 @@ la ubicación de mi intervalo, lo cual me causó más confusión. Afortunadament
 fue la decisión correcta y funcionó de maravilla cuando apunté bien el método.
 
 - Las pruebas eran muy difíciles de completar en la terminal
+
 Precisamente por este problema me puse a hacer los primeros acomodos de elementos
 en el DOM. Me parecía mucho más fácil ver todo al mismo tiempo en la pantalla
 grande que probar línea por línea la manipulación de todos mis objetos en la
@@ -176,7 +191,7 @@ De todas maneras la selección era complicada, incluso viendo la ubicación de
 cada pieza, por lo que reconfiguré *onclicks* en cada pieza y las reacomodé en
 *divs* adentro de un contenedor con flex.
 
-#####Qué aprendí
+##### Qué aprendí
 
 Resultó que *flexbox* es una herramienta natural para el desarrollo de un juego
 como éste, y armar mis pruebas en el DOM con *flexbox* influyó la dirección del
@@ -188,9 +203,9 @@ el juego de una manera intuitiva, pero hacer estas pruebas me obligó a acelerar
 el desarrollo de UX, precisamente para poder validar la lógica más rápido.
 Resolví que el siguiente día cerraría la brecha un poco más.
 
-####30 de noviembre de 2018
+#### 30 de noviembre de 2018
 
-#####Qué hice
+##### Qué hice
 
 - Flexibilicé las pruebas en el DOM para que funcionaran para cualquier dimensión
 - Agregué métodos *onkeydown* para rotar las piezas (*huge time saver*)
@@ -201,12 +216,15 @@ Resolví que el siguiente día cerraría la brecha un poco más.
 - Los SVGs sólo los usé para el tablero, no las piezas sueltas
 - También monté GitHub Pages, donde vergonzosamente sigue mi prueba fea a la fecha
 
-#####Con qué batallé y cómo lo solucioné
+##### Con qué batallé y cómo lo solucioné
 
 - GIMP está orientado a raster así que no graba SVGs por sí solo
+
 Descargué **Inkscape** para manipular los SVGs. Me ayudó mucho usar los *shortcuts*
 del teclado.
+
 - Al parecer, HTML no permite manipular como SVG un archivo SVG
+
 Éste sí fue un problemota, por no utilizar términos altisonantes.
 **¿Cómo es posible que casi en 2019 no puedas sólo leer un SVG con un atributo src?**
 La verdad sí me enfurecí muchísimo, porque debí cargar los SVG con tags <img> y
@@ -221,7 +239,9 @@ algo de paciencia y comentó que podría tratar de circumvenirlo con un servidor
 Dicho y hecho, el buen *live-server* que descargué de npm salvó el día y me
 dejó hacer las conversiones a SVG. Luego me ayudó a montar mi GitHub Pages para
 verificar que también funcionara ahí (*check*) y listo.
+
 - Una vez cargados los SVG, no le podía dar estilo a los polígonos
+
 AAARRRGGGHHH, *¿cómo que después de haber dado tanto por tener SVGs no los puedo*
 *colorear? ¡Que alguien me explique!* Fastidiado por la ingratitud de mis
 archivitos, me metí a ver la fuente (los SVGs son un subconjunto de XML) y para
@@ -235,7 +255,7 @@ diseñador y la falta de Adobe Illustrator en mis equipos de toda la vida.
 Una vez que me zambullí a la fuente, todo fue claro, y me acerqué un paso más a
 ascender a mi forma pura de energía y código.
 
-#####Qué aprendí
+##### Qué aprendí
 
 Dios mío, que es bueno tener a gente paciente que te escucha y no te juzga por
 cometer errores. Toda la razón por la cual quería usar SVGs es porque tenía la
@@ -253,9 +273,9 @@ medida conocía por mis travesuras de *webscraping* con R. Lo de los polígonos 
 muy fácil en gran parte por mi disposición previa a meterme a ver código fuente
 de cosas que no fueron hechas por mí.
 
-####1 de diciembre de 2018
+#### 1 de diciembre de 2018
 
-#####Qué hice
+##### Qué hice
 
 - Extender el uso de SVGs en mi código
 - Colorear mejor mis SVGs
@@ -263,9 +283,10 @@ de cosas que no fueron hechas por mí.
 - Meter las piezas en lugar de los nodos de texto que tenía
 - Comencé esta bitácora
 
-#####Con qué batallé y cómo lo solucioné
+##### Con qué batallé y cómo lo solucioné
 
 - Para este momento, mi código ya era muy largo y confuso
+
 Changos, yo que soy bien obsesivo con la concisión y legibilidad (y para lo que
 francamente batallo mucho) no quedé nada contento con esto. Además, cuando quería
 explicar mis problemas a Germán, pues no era tan fácil navegar a donde quería.
@@ -274,6 +295,7 @@ Esto todavía no lo resuelvo, pero sí tengo un montón de *refactoring* en mi l
 de cosas por hacer.
 
 - La asincronía introducida al convertir img -> svg mató mis *onclicks*
+
 Uf, por si no fuera evidente todavía que detesto la forma en la que HTML manipula
 los SVGs, esto sí me sacó de mis casillas y me dejó muy frustrado, frente a mis
 compañeros, por un período de unas 2 horas y media, amenizada por el *background*
@@ -319,19 +341,23 @@ mostrarlos cuando el usuario dé "start game". Ni modo, en lo que aprendo más d
 JS, ésta tendrá que ser la solución.
 
 - Las piezas que aparecían en el tablero no eran las que quería
+
 y problema relacionado...
+
 - Cuando quería eliminar piezas, se reacomodaban de formas inesperadas
+
 Ok, esto era un problema de lógica, y lo resolví utilizando navegación de objetos
 y montón de métodos de arreglos como *map y filter*. Todo ese tiempo haciendo
 *katas* en **Codewars** valió la pena.
 
 - Cuando resolví lo anterior, todo se cargaba como imgs de nuevo...
+
 A veces la solución más sencilla es la mejor. Literalmente lo único que tuve
 que hacer fue agarrar el *parentnode* de los svgs que quería eliminar y convertir
 su *outerHTML* en "". Esto funcionó de maravilla, y no tuve que volver a cargar
 nada ni volver a meter onclicks a objetos redibujados.
 
-#####Qué aprendí
+##### Qué aprendí
 
 Antes que nada, estoy muy feliz de haber optado por hacer un nuevo branch para
 probar todo esto, porque probablemente me hubiera arrancado el cabello de estrés
@@ -350,19 +376,54 @@ La urgencia de tener claridad de mi proceso de desarrollo y las lecciones
 aprendidas también me llevó a armar este documento, y aprender algo de Markdown.
 Fue una buena primera semana de desarrollo, y hay que seguir *chambeando*.
 
-####2 de diciembre de 2018
+#### 2 de diciembre de 2018
 
-#####Qué hice
+##### Qué hice
 - Reducir un poco el código
 - Incorporar rotación a las piezas
 - Intentar que las rotaciones lleven animación
 - Meter algunos sonidos
 - *Merge* svg-grid con master
 
-#####Con qué batallé y cómo lo solucioné
+##### Con qué batallé y cómo lo solucioné
 - Las animaciones no me salieron
+
 Todavía no soluciono esto, pero espero hacerlo con el apoyo de mis compañeras que
 sí son diseñadoras.
 
-#####Qué aprendí
+##### Qué aprendí
 Ya me siento más tranquilo que ayer, y creo que hay mucho progreso.
+
+#### 3 de diciembre de 2018
+
+##### Qué hice
+- Realizar pruebas con terceros
+- Documentar sus observaciones
+
+##### Con qué batallé y cómo lo solucioné
+
+- Las animaciones no me salieron
+
+Todavía no soluciono esto, pero espero hacerlo con el apoyo de mis compañeras que
+sí son diseñadoras.
+
+##### Qué aprendí
+
+Ya me siento más tranquilo que ayer, y creo que hay mucho progreso.
+
+#### 4 de diciembre de 2018
+
+##### Qué hice
+- Tomé un descanso
+
+##### Con qué batallé y cómo lo solucioné
+
+- No trabajar
+
+Sí me preocupa un poco no resumir a tiempo esto. Procuraré evitarlo trabajando
+mañana. Motivo de la demora: trabajar en *katas* en clase.
+
+##### Qué aprendí
+
+¿No procrastinar?
+
