@@ -2,41 +2,40 @@
 
 function prepContainers(game) { //TODO: Make random positions for pieces
   //Declare variables
-  let col;
-  let piecesNode = document.getElementById("pieces-container");
   let boardNode = document.getElementById("board");
   //Set up pieces and board
   for (let i = 0; i < game.board.rows; i++) {
-    col = document.createElement("div");
     boardCol = document.createElement("div");
-    col.setAttribute("class", "col piece-column");
     boardCol.setAttribute("class", "col"); 
-    piecesNode.appendChild(col);
     boardNode.appendChild(boardCol);
   }
 }
 
 function setAvailablePieces(game) {
   let piecesNode = document.getElementById("pieces-container");
-  let colLength = game.board.rows;
   let cells = game.availablePieces.length;
-  let cols = Math.ceil(cells / colLength);
-  let remainder = (cells % colLength === 0) ? colLength : cells % colLength;
   let svgs = pieceImgs.filter(el => game.availablePieces.map(ie => ie.id).indexOf(el.id.slice(0,2))!== -1);
   let cellNode;
-  //Iterate over cols
-  for (let i = 0; i < cols; i++) {
-    //Iterate over cells
-    piecesNode.children[i].innerHTML = "";
-    for (let j = 0; j < ((i === cols-1) ? remainder : colLength); j++) {
-      cellNode = document.createElement("div");
-      cellNode.setAttribute("class", "piece--available piece--hidden");
-      let svg = svgs[svgs.map(el => el.id.slice(0,2))
-        .indexOf(game.availablePieces[j*colLength+i].id)];
-      cellNode.appendChild(svg);
-      piecesNode.children[i].appendChild(cellNode);
-    }
+  //Iterate over cells
+  for (let i = 0; i < cells; i++) {
+    cellNode = document.createElement("div");
+    cellNode.setAttribute("class", "piece--available piece--hidden");
+    let svg = svgs[svgs.map(el => 
+      el.id
+        .slice(0,2))
+        .indexOf(game.availablePieces[i].id)];
+    cellNode.appendChild(svg);
+    //Generate random positions and program with help from CSS
+    //position: fixed
+    //top: random, based on vh
+    //width: random, based on vw
+    //make sure it's not on the board
+    piecesNode.appendChild(cellNode);
   }
+}
+
+function resetAvailablePieces(game) {
+  //Recover original pieces to make the pieces pop
 }
 
 function fillGrid(game) {
@@ -84,47 +83,47 @@ function highlightPiece(piece) {
 function dehighlightPieces(game) {
   let piecesCollection = document.getElementById("pieces-container");
   for (let i = 0; i < piecesCollection.children.length; i++) {
-    for (let j = 0; j < piecesCollection.children[i].children.length; j++) {
-      let id = piecesCollection.children[i].children[j].children[0].getAttribute("id").slice(0,2);
-      let rotation = game.availablePieces.filter(el => el.id === id)[0].position;
-      piecesCollection.children[i].children[j].children[0].setAttribute("class", 
-      `svg piece piece--unselected piece--rot${rotation}`);
-    }
+    let id = piecesCollection.children[i].children[0].getAttribute("id").slice(0, 2);
+    let rotation = game
+      .availablePieces
+      .filter(el => el.id === id)[0]
+      .position;
+    piecesCollection
+      .children[i]
+      .children[0]
+      .setAttribute("class", `svg piece piece--unselected piece--rot${rotation}`);
   }
 }
 
 function revealPieces() {
   let piecesCollection = document.getElementById("pieces-container");
   for (let i = 0; i < piecesCollection.children.length; i++) {
-    for (let j = 0; j < piecesCollection.children[i].children.length; j++) {
-      piecesCollection
+    piecesCollection
       .children[i]
-      .children[j]
       .classList
       .remove("piece--hidden")
-    }
   }
 }
 
 function placedPiece(piece, game) {
-  let notifNode = document.getElementById("notification");
-  notifNode.textContent = `You placed ${piece.description},
-                         it's currently in board slot ${game.board.slots.indexOf(piece)}`;
+  // let notifNode = document.getElementById("notification");
+  // notifNode.textContent = `You placed ${piece.description},
+  //                        it's currently in board slot ${game.board.slots.indexOf(piece)}`;
   let fullPiece = document.getElementById(piece.id);
   fullPiece.setAttribute("class", "svg board-slot slot--full");
 }
 
 //TODO: Upgrade this
 function wrongPiece(game) {
-  let notifNode = document.getElementById("notification");
-  notifNode.textContent = "Wrong piece!!"; //¿O usar textNode?
+  // let notifNode = document.getElementById("notification");
+  // notifNode.textContent = "Wrong piece!!"; //¿O usar textNode?
   dehighlightPieces(game);
 }
 
 //TODO: Upgrade this
 function wrongRot(game) {
-  let notifNode = document.getElementById("notification");
-  notifNode.textContent = "It didn't quite fit in..."; //¿O usar textNode?
+  // let notifNode = document.getElementById("notification");
+  // notifNode.textContent = "It didn't quite fit in..."; //¿O usar textNode?
   dehighlightPieces(game);
 }
 
@@ -177,26 +176,33 @@ function update(game) {
 }
 
 function gfxUpdate(game) {
-  let graphTimer = document.getElementById("timer");
-  graphTimer.textContent = game.timer.secondsLeft;
+  let graphTimer = document.getElementsByClassName("timer");
+  for (let  i = 0; i < graphTimer.length; i++) {
+    graphTimer[i].textContent = game.timer.secondsLeft;
+  }
 }
 
 function changeButton() {
-  optionsContainer = document.getElementById("options-container");
-  startButton = document.getElementById("start");
-  restartButton = document.createElement("button");
-  restartButton.setAttribute("id", "restart");
-  restartButton.setAttribute("class", "btn-restart");
-  restartButton.textContent = "Restart";
-  restartButton.onclick = restart;
-  startButton.outerHTML = "";
-  optionsContainer.appendChild(restartButton);
+  optionsContainer = document.getElementsByClassName("options-container");
+  for (let i = 0; i < optionsContainer.length; i++) {
+    startButton = document.getElementsByClassName("btn-start")[0]; //TODO: ¿Jala?
+    restartButton = document.createElement("button");
+    restartButton.setAttribute("id",
+    (i === 0) ? "restart" : "restart--mobile");
+    restartButton.setAttribute("class", "btn-restart");
+    restartButton.textContent = "Restart";
+    restartButton.onclick = restart;
+    startButton.outerHTML = "";
+    optionsContainer[i].appendChild(restartButton);
+  }
 }
 
 function testListeners(game) {
   let rlButton = document.getElementById("btn--rotate-left");
   let rrButton = document.getElementById("btn--rotate-right");
+  let rrMobileButton = document.getElementById("btn--rotate-mobile");
   let stButton = document.getElementById("start");
+  let stMobileButton = document.getElementById("start--mobile");
 
   rlButton.onclick = function() {
     game.players[0].heldPiece.rotateLeft(game);
@@ -206,8 +212,19 @@ function testListeners(game) {
     game.players[0].heldPiece.rotateRight(game);
   }
 
+  rrMobileButton.onclick = function() {
+    game.players[0].heldPiece.rotateRight(game);
+  }
+
   if (stButton !== null) {
     stButton.onclick = function() {
+      start(game);
+      changeButton();
+    }
+  }
+
+  if (stMobileButton !== null) {
+    stMobileButton.onclick = function() {
       start(game);
       changeButton();
     }
@@ -217,15 +234,11 @@ function testListeners(game) {
 function piecesListeners(game) { //TODO: Actualizar esto
   /* Set up listeners for selected piece*/
   let pieces = document.getElementById("pieces-container");
-  let size = game.availablePieces.length;
-  let colLength = Math.sqrt(size);
-  for (let i = 0; i < colLength; i++) {
-    for (let j = 0; j < pieces.children[i].children.length; j++) { //¿Ya?
-      let node = pieces.children[i].children[j];
-      node.onclick = function() {
-        let pieceid = node.children[0].id.slice(0,2);
-        game.players[0].grabPiece(game, pieceid); //¿Cómo agarrar el player?
-      }
+  for (let i = 0; i < pieces.children.length; i++) { //¿Ya?
+    let node = pieces.children[i];
+    node.onclick = function () {
+      let pieceid = node.children[0].id.slice(0, 2);
+      game.players[0].grabPiece(game, pieceid); //¿Cómo agarrar el player?
     }
   }
 }
