@@ -427,3 +427,12 @@ mañana. Motivo de la demora: trabajar en *katas* en clase.
 
 ¿No procrastinar?
 
+
+Créditos y agradecimientos:
+Aline Aragón (Apoyo moral)
+Sandra Barrón (Asesoría UX)
+Ricardo Chavero (Concepto)
+José Carlos Correa ()
+María Teresa del Real (SVGs de piezas)
+Germán Domínguez (Asesoría HTML/CSS/JS)
+Paulina Espinosa (Asesoría UX)

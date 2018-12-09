@@ -13,6 +13,12 @@ function prepContainers(game) { //TODO: Make random positions for pieces
 
 function setAvailablePieces(game) {
   let piecesNode = document.getElementById("pieces-container");
+  let slackLeft = 60; //Pixels before maxima, for random positioning
+  let slackTop = 20;
+  let ofLeft = piecesNode.offsetLeft;
+  let ofTop = piecesNode.offsetTop;
+  let maxLeft = ofLeft + piecesNode.offsetWidth - slackLeft;
+  let maxTop = ofTop + piecesNode.offsetHeight - slackTop;
   let cells = game.availablePieces.length;
   let svgs = pieceImgs.filter(el => game.availablePieces.map(ie => ie.id).indexOf(el.id.slice(0,2))!== -1);
   let cellNode;
@@ -20,16 +26,20 @@ function setAvailablePieces(game) {
   for (let i = 0; i < cells; i++) {
     cellNode = document.createElement("div");
     cellNode.setAttribute("class", "piece--available piece--hidden");
+    //Find the right image
     let svg = svgs[svgs.map(el => 
       el.id
         .slice(0,2))
         .indexOf(game.availablePieces[i].id)];
     cellNode.appendChild(svg);
+    //Place the div randomly
+    let left = Math.floor(Math.random()*(maxLeft - ofLeft)) + ofLeft; //In percentages
+    let top = Math.floor(Math.random()*(maxTop - ofTop)) + ofTop;
+    /* Aguas con esto, parece que la toma de la anterior (no del padre) */
+    cellNode.style.position = "absolute";
+    cellNode.style.left = `${left}px`;
+    cellNode.style.top = `${top}px`;
     //Generate random positions and program with help from CSS
-    //position: fixed
-    //top: random, based on vh
-    //width: random, based on vw
-    //make sure it's not on the board
     piecesNode.appendChild(cellNode);
   }
 }
@@ -183,17 +193,23 @@ function gfxUpdate(game) {
 }
 
 function changeButton() {
-  optionsContainer = document.getElementsByClassName("options-container");
+  let optionsContainer = document.getElementsByClassName("options-container");
+  let timerContainer = document.getElementById("timer-container--mobile");
   for (let i = 0; i < optionsContainer.length; i++) {
     startButton = document.getElementsByClassName("btn-start")[0]; //TODO: ¿Jala?
     restartButton = document.createElement("button");
     restartButton.setAttribute("id",
     (i === 0) ? "restart" : "restart--mobile");
     restartButton.setAttribute("class", "btn-restart");
-    restartButton.textContent = "Restart";
+    restartButton.textContent = "Restart Game";
     restartButton.onclick = restart;
     startButton.outerHTML = "";
-    optionsContainer[i].appendChild(restartButton);
+    if (i === 0) {
+      optionsContainer[i].appendChild(restartButton);
+    }
+    else {
+      optionsContainer[i].insertBefore(restartButton, timerContainer);
+    }
   }
 }
 
