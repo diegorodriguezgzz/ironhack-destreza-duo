@@ -78,7 +78,6 @@ Player.prototype.grabPiece = function(game, pieceid) {
   gridListeners(game);
 }
 
-//TODO: complete
 Player.prototype.placePiece = function(game) {
   if (game.board.selectedSlot.id === this.heldPiece.id && //The pieces match
       this.heldPiece.checkRotation()) { //Accurately rotated
@@ -97,7 +96,6 @@ Player.prototype.placePiece = function(game) {
       else {
         bing();
       }
-        
   }
   else if (game.board.selectedSlot.id === this.heldPiece.id && //Just wrong rotation
     !this.heldPiece.checkRotation()) {
@@ -160,6 +158,15 @@ Game.prototype.buildParameters = function() {
         sequence : [3,4,5]
       }
       break;
+    case "Practice":
+      this.modeParams = {
+        time : 3600, 
+        players : 1,
+        rows : 5,
+        sequence : [5]
+      }
+      break;
+
     default:
       this.modeParams = {
         time : 90, 

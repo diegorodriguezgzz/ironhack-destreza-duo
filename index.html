@@ -11,37 +11,49 @@
     crossorigin="anonymous"></script>
   <title>Destreza Duo</title>
 </head>
-
-<body>
+<div class="options-container" id="options-container--desktop">
+  <!-- <button id="btn--rotate-desktop">
+    <img src="assets/rotate.png" alt="Rotate button">
+  </button> -->
   <div id="timer-container">
-    <h1 id="timer"></h1>
+    <h1 class="timer"></h1>
   </div>
+  <button id="start" class="btn-start">Start</button>
+</div>
+<body>
   <div class="btn-container">
     <button id="btn--rotate-left" class="btn-rotate">Rotate left</button>
     <button id="btn--rotate-right" class="btn-rotate">Rotate right</button>
   </div>
-  <h3>Available pieces</h3>
-  <div id="pieces-container">
-    <!-- This is filled from classes.js -> gameFunctions.js -> game.js -->
-  </div>
-  <div id="options-container">
-    <button id="start" class="btn-start">Start</button>
-  </div>
-  <div id="notif-container">
-    <h3 id="notification"></h3>
-  </div>
-  <h3>Board</h3>
   <section id="board-section">
-    <div id="board">
-    <!-- This is filled from classes.js -> gameFunctions.js -> game.js -->
+    <div class="pieces-grand">
+      <h3 id="pieces-title">Available pieces</h3>
+      <div id="pieces-container">
+        <!-- This is filled from classes.js -> gameFunctions.js -> game.js -->
+      </div>
     </div>
-  </section>
-  <script src="js/pieces.js"></script>
-  <script src="js/classes.js"></script>
-  <script src="js/gameFunctions.js"></script>
-  <script src="js/loadImages.js"></script>
-  <script src="js/audios.js"></script>
-  <script src="js/game.js"></script>
+    <div class="board-grand">
+      <h3 id="board-title">Board</h3>
+      <div id="board">
+      <!-- This is filled from classes.js -> gameFunctions.js -> game.js -->
+      </div>
+    </div>
+</section>
+<div class="options-container" id="options-container--mobile">
+  <button id="start--mobile" class="btn-start">Start</button>
+  <div id="timer-container--mobile">
+    <h1 class="timer"></h1>
+  </div>
+  <button id="btn--rotate-mobile">
+    <img src="assets/rotate.png" alt="Rotate button">
+  </button>
+  </div>
+<script src="js/pieces.js"></script>
+<script src="js/classes.js"></script>
+<script src="js/gameFunctions.js"></script>
+<script src="js/loadImages.js"></script>
+<script src="js/audios.js"></script>
+<script src="js/game.js"></script>
 </body>
 
 </html>

@@ -8,29 +8,42 @@
 */
 
 /* Tag styles */
+
 body {
   margin: 0;
+  background-image: url(../assets/fondo.jpg);
+  background-size: 100vw 100vh;
   font-family: Arial, Helvetica, sans-serif;
+  color: #FFFFFF;
 }
 
 h3 {
-  font-size: 14pt;
+  font-size: 16pt;
   text-align: center;
-  margin: 0;
+  margin: 0 0 4vh;
 }
 
 /*Containers & sections*/
 #timer-container, 
+#timer-container--mobile,
 #notif-container {
-  height: 80px;
+  height: 40px;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+#timer-container--mobile {
+  height: 12vh;
+  width: 50vw;
+  margin: 0 0 4vh;
+}
+
 #timer-container {
   height: 12vh;
+  width: 28vw;
+  margin: 0 0 4vh;
 }
 
 .btn-container {
@@ -41,36 +54,36 @@ h3 {
 }
 
 #pieces-container {
-  width: 95vw;
-  display: flex;
-  justify-content: space-evenly;
+  width: 60vw;
+  height: 50vh;
   margin: 0 auto;
 }
 
-#options-container {
+#options-container--desktop {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   font-size: 18pt;
-  margin: 10px auto;
+  margin: 5vh auto;
+}
+
+#options-container--mobile {
+  display: none;
 }
 
 #board-section {
   display: flex;
-  justify-content: center;
+  /* justify-content: flex-end; */
+  flex-flow: row wrap;
 }
 
 /* Objects */
 
-#timer {
-  font-size: 50pt;
+.timer {
+  margin: 5vh 0 0;
+  font-size: 70pt;
   text-align: center;
-  color: #FF0000;
-}
-
-#board {
-  display: flex;
-  justify-content: center;
-  font-size: 18pt;
+  color: #FFC300;
 }
 
 /* Recomendación: 
@@ -104,29 +117,49 @@ buscar animate.css de daneden
 
 .btn-start {
   height: 8vh;
-  background-color: #FF0000;
+  width: 10vw;
+  background-color: #1c49b9;
   color: #FFFFFF;
-  border: 5px solid #000000;
+  border: 2px solid #767a86;
   font-size: 16pt;
+  border-radius: 10px;
 }
 
 .btn-restart {
   height: 8vh;
-  background-color: #22FF22;
+  width: 10vw;
+  background-color: #1c49b9;
   color: #FFFFFF;
-  border: 5px solid #000000;
+  border: 2px solid #767a86;
   font-size: 16pt;
+  border-radius: 10px;
 }
 
-.btn-rotate {
+.btn-rotate { /*TODO: Remove this, it probably isn't needed*/
+  display: none;
   height: 5vh;
   background-color: #FFC300;
   border: 3px solid #0023B9;
   color: #000000;
 }
 
+#btn--rotate-mobile {
+  display: none;
+  margin: 0 auto;
+  height: 10vh;
+  width: 10vh;
+  background-color: #FFC300;
+  border: 3px solid #0023B9;
+  color: #000000;
+  border-radius: 10px;
+}
+
 #board {
-  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18pt;
+  margin: 0 auto;
   width: 52vh; /*This is on purpose*/
   flex-flow: row wrap;
   justify-content: center;
@@ -157,6 +190,10 @@ svg.piece--selected {
   height: 10vh;
 }
 
+svg.piece--rot0 {
+  transform: rotate(0deg);
+}
+
 svg.piece--rot1 {
   transform: rotate(270deg);
 }
@@ -176,7 +213,7 @@ svg.piece--unselected circle,
 svg.piece--unselected rect#rect3926, 
 svg.piece--unselected rect#rect3890 {
   stroke: #00051b !important;
-  fill: #777777 !important; /*Necesario para que cambie de color*/
+  fill: #FFFFFF !important; /*Necesario para que cambie de color*/
 }
 
 svg.piece--selected path, 
@@ -208,31 +245,92 @@ svg.slot--full rect#rect3890 {
 }
 
 @media only screen and (max-width : 767px) {
-  .pieces-container {
-    justify-content: center;
+  #board-section {
+    flex-flow: column wrap;
   }
-  
-  .piece-column {
-    width: 18%;
-  }
-  
-  #timer {
-    font-size: 30pt;
-    }
 
-  .btn-rotate {
-    height: 10vh;
-    }
+  div.piece--available {
+    width: 20vw;
+  }
+
+  #options-container--desktop {
+    display:none;
+  }
+
+  #options-container--mobile {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18pt;
+    margin: 1vh auto;
+  }  
   
+  #notif-container {
+    height: 5vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8pt;
+  }
+
+  h3 {
+    font-size: 10pt;
+    margin: 0.4vh 0;
+  }
+
+  .notification {
+    font-size: 8pt;
+  }
+
+  #timer-container,
+  #timer-container--mobile {
+    margin: 0;
+    height: 8vh;
+    width: 33vw;
+  }
+
+  #options-container--mobile {
+    position: fixed;
+    bottom: 0vh;
+  }
+
+  .timer {
+    margin: 1vh 0 0;
+    font-size: 32pt;
+  }    
+    
+  .btn-rotate {
+    height: 4vh;
+    font-size: 8pt;
+    display: none;
+  }
+
+  .btn-start, 
+  .btn-restart {
+    height: 10vh;
+    width: 33vw;
+  }
+
+  #btn--rotate-mobile {
+    width: 33vw;
+    display: block;
+  }
+
+  #pieces-container {
+    justify-content: space-around;
+    height: 30vh;
+    width: 100vw;
+  }
+    
   #board {
     margin: 0;
-    width: 48vh; /*This is on purpose*/
+    width: 90vw; /*This is on purpose*/
     flex-flow: row wrap;
     justify-content: center;
     background-color: #000b3b;
-    border: 20px solid #FF0000;
-    }
-  
+    border: 5vw solid #FF0000;
+  }
+
   .board-slot {
     height: 8vh;
     width: 8vh;
@@ -244,6 +342,7 @@ svg.slot--full rect#rect3890 {
 
   svg.piece {
     height: 4vh;
+    width: 20vw;
   }
     
   svg.piece--selected {
