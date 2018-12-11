@@ -15,6 +15,7 @@ body {
   background-size: 100vw 100vh;
   font-family: Arial, Helvetica, sans-serif;
   color: #FFFFFF;
+  touch-action: manipulation;
 }
 
 h3 {
@@ -87,25 +88,7 @@ h3 {
 }
 
 /* Recomendación: 
-Agregar border radius
-Cambiar color de border
 Font a Monserrat o algo suave y bonito
-Texto más chico en el botón
-Color: 
-
-    background-color: #1c49b9;
-    color: #FFFFFF;
-    font-size: 12pt;
-    border-radius: 10px;
-    padding: 20px;
-    line-height: 6pt;
-    border: 2px solid #767a86;
-}
-
-Cambiar los botones left y right por flat icon
-
-Para pantalla completa, poner las piezas a la izquierda del board
-en lugar de arriba
 
 Para instrucciones:
 Si es abierto por primera vez, que saque el folleto de 

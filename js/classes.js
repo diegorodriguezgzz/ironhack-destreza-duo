@@ -88,7 +88,8 @@ Player.prototype.placePiece = function(game) {
         ) //Just move the one piece from one array to the other
       placedPiece(this.heldPiece, game);//Notify the player
       let pieceDiv = document.getElementById(`${this.heldPiece.id}-piece`);
-      pieceDiv.parentNode.outerHTML=""; //Delete the element
+      pieceDiv.style.display = "none";
+      //pieceDiv.parentNode.outerHTML = ""; //Delete the element
       piecesListeners(game);
       if(game.checkFinished(game.board)) {
         game.checkWinner();
@@ -113,6 +114,7 @@ Player.prototype.placePiece = function(game) {
   this.clickedSlot = null;
 }
 
+//TODO: ¿sirve?
 Player.prototype.clickSlot = function(slot) {
   this.clickedSlot = slot;
 }
