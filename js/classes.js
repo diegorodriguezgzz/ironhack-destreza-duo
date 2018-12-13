@@ -10,10 +10,9 @@
 /* Constructors and 
 prototype methods */
 
-function Piece(id, description, syms, rots, color) {
+function Piece(id, description, rots, color) {
   this.id = id;
   this.description = description;
-  this.syms = syms;
   this.rots = rots;
   this.color = color;
   this.path = `assets/${this.id}-${this.description}.svg`; //Ej src: "assets/1A-Semicircle.svg"
@@ -64,6 +63,7 @@ function Player(name, color, number) {
   this.number = number;
   this.heldPiece = null;
   this.clickedSlot = null;
+  this.timeCollection = [];
 }
 
 /*This one is intertwined with the Game class...
@@ -92,7 +92,7 @@ Player.prototype.placePiece = function(game) {
       //pieceDiv.parentNode.outerHTML = ""; //Delete the element
       piecesListeners(game);
       if(game.checkFinished(game.board)) {
-        game.checkWinner();
+        game.checkWinner(game.timer);
       } //And check if the game is over
       else {
         bing();
@@ -216,13 +216,16 @@ Game.prototype.checkGameOver = function() {
   return (this.timer.secondsLeft <= 0) ? true : false; //Return true if time is over
 }
 
-Game.prototype.checkWinner = function() {
+Game.prototype.checkWinner = function(chron) {
   if (this.players.length === 1) {
+    this.players[0].timeCollection.push(chron.secondsLeft);
+    console.log("The time was ", this.players[0].timeCollection);
     this.cleanInterval();
     youWin();
   }
   else {
     //Check who, out of the available players, did best in the game
+    //Also check if the game is finished, and rule on who did best
   }
 }
 
