@@ -427,6 +427,73 @@ mañana. Motivo de la demora: trabajar en *katas* en clase.
 
 ¿No procrastinar?
 
+#### 5 de diciembre de 2018
+
+#### 6 de diciembre de 2018
+
+#### 10 de diciembre de 2018
+
+##### Qué hice
+- Traté de resolver un bug de posicionamiento
+
+- Validé varias de las funciones de los *listeners* que había montado
+
+- Exploré la posibilidad de animar las piezas para que se reubicaran si el usuario pierde
+
+##### Con qué batallé y cómo lo solucioné
+
+- La animación no estuvo tan sencilla
+
+Esto lo atribuyo a decisiones que había tomado previamente y supuestos embebidos
+en mi código. El proceso que intenté seguir se desmenuzó en:
+
+  - Primero, quitar el estilo de "slot--full" del tablero
+
+  - Segundo, colocar las piezas faltantes sobre los slots con position:absolute
+
+  - Tercero, mandar a volar todas las piezas **SOBRE EL TABLERO**
+
+Para ello, debí hacer algo de *refactoring*, tal como cambiar la manera en la
+que estaba "borrando" las piezas usadas (antes borraba outerHTML, y después sólo
+puse display:hide, pero igual no estuvo tan sencillo).
+
+Igual, no pude completar la tarea y opté por volver a arrojarme contra los
+molinos de viento en otra ocasión.
+
+##### Qué aprendí
+
+#### 11 de diciembre de 2018
+
+Me tomé el día. Fui a ver *Die Fledermaus*, de Strauss, en Bellas Artes. *Worth it*, me reí mucho.
+
+#### 12 de diciembre de 2018
+
+##### Qué hice
+- Resolví un bug de posiciones de piezas que llevaba arrastrando desde hace semanas
+
+##### Con qué batallé y cómo lo solucioné
+
+- Las herramientas de *debugging* tienen soporte limitado para errores de lógica
+
+Incluso pensé que el error estaba en el momento en el que yo hacía un "highlight"
+de las piezas, porque siempre era ahí cuando yo observaba el error.
+
+En realidad, mi problema era que pese a que los arreglos de piezas se refrescaban
+con cada reinicio de juego (y con ello sus posiciones), yo no estaba actualizando
+las imágenes para que también rotaran con cada inicio de juego. Como resultado,
+era posible que tuviera piezas mal rotadas y sólo se "actualizaran" sus clases
+cuando les hiciera click.
+
+Mi solución fue cambiar la forma en la que tenía escritos mis *scripts*
+auxiliares y pasarlos más a un paradigma de "funciones" que de "variables 
+globales", lo cual también considero que es buena práctica.
+
+Funcionó de maravilla... y lo mejor fue darme cuenta de que resolví un problema
+que había detectado desde hace mucho tiempo, pero que nada más no había tenido
+la capacidad de entender hasta hoy.
+
+##### Qué aprendí
+
 
 Créditos y agradecimientos:
 Aline Aragón (Apoyo moral)
