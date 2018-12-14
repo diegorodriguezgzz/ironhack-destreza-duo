@@ -1,6 +1,6 @@
 /* Game-specific functions */
 
-function prepContainers(game) { //TODO: Make random positions for pieces
+function prepContainers(game) {
   //Declare variables
   let boardNode = document.getElementById("board");
   //Set up pieces and board
@@ -46,7 +46,6 @@ function setAvailablePieces(game) {
 function resetAvailablePieces(game) {
   let boardNode = document.getElementById("board");
   let piecesCollection = document.getElementById("pieces-container");
-  let pieceNode;
   //Color all slots to defaults
   for (let i = 0; i < boardNode.children.length; i++) {
     for (let j = 0; j < boardNode.children[i].children.length; j++) {
@@ -55,7 +54,7 @@ function resetAvailablePieces(game) {
         //and place substitute svgs in that position
         let id = boardNode.children[i].children[j].children[0].id;
         let svg;
-        for (let k = 0; k < piecesCollection.children; k++) { //TODO: Fix this!!!
+        for (let k = 0; k < piecesCollection.children; k++) {
           if (piecesCollection.children[k].id === id) {
             svg = piecesCollection.children[k];
             svg.style.display = "block";
@@ -123,14 +122,6 @@ function dehighlightPieces(game) {
   for (let i = 0; i < piecesCollection.children.length; i++) {
     let id = piecesCollection.children[i].children[0].getAttribute("id").slice(0, 2);
     if (game.availablePieces.map(el => el.id).indexOf(id) !== -1) {
-      /*let rotation = game
-        .availablePieces
-        .filter(el => el.id === id)[0]
-        .position;
-      piecesCollection
-        .children[i]
-        .children[0]
-        .setAttribute("class", `svg piece piece--unselected piece--rot${rotation}`);*/
       piecesCollection
         .children[i]
         .children[0]
@@ -155,17 +146,15 @@ function revealPieces() {
   }
 }
 
-function placedPiece(piece, game) {
+function placedPiece(piece) {
   let fullPiece = document.getElementById(piece.id);
   fullPiece.setAttribute("class", "svg board-slot slot--full");
 }
 
-//TODO: Upgrade this
 function wrongPiece(game) {
   dehighlightPieces(game);
 }
 
-//TODO: Upgrade this or replace
 function wrongRot(game) {
   dehighlightPieces(game);
 }
@@ -182,7 +171,7 @@ function wrongTone() {
 
 function gameOver() {
   expl.play();
-  alert("¡Destreza!"); //TODO: Sustituir por animación chida
+  alert("BOOM! Time's up!");
 }
 
 function youWin() {
@@ -205,7 +194,7 @@ function gfxReset() {
 
 function start(game) {
   piecesListeners(game);
-  game.makeInterval(); //TODO: Refactor
+  game.makeInterval();
   revealPieces();
 }
 
@@ -229,7 +218,7 @@ function changeButton() {
   let optionsContainer = document.getElementsByClassName("options-container");
   let timerContainer = document.getElementById("timer-container--mobile");
   for (let i = 0; i < optionsContainer.length; i++) {
-    startButton = document.getElementsByClassName("btn-start")[0]; //TODO: ¿Jala?
+    startButton = document.getElementsByClassName("btn-start")[0];
     restartButton = document.createElement("button");
     restartButton.setAttribute("id",
     (i === 0) ? "restart" : "restart--mobile");
@@ -280,14 +269,14 @@ function testListeners(game) {
   }
 }
 
-function piecesListeners(game) { //TODO: Actualizar esto
+function piecesListeners(game) {
   /* Set up listeners for selected piece*/
   let pieces = document.getElementById("pieces-container");
   for (let i = 0; i < pieces.children.length; i++) { //¿Ya?
     let node = pieces.children[i];
     node.onclick = function () {
       let pieceid = node.children[0].id.slice(0, 2);
-      game.players[0].grabPiece(game, pieceid); //¿Cómo agarrar el player?
+      game.players[0].grabPiece(game, pieceid);
     }
   }
 }
@@ -311,7 +300,7 @@ function gridListeners(game) {
   this.listenersSet = true;
 }
 
-function keyboardListeners(game) { //Quizás actualizar esto
+function keyboardListeners(game) {
   document.onkeydown = function(e) {
     switch (e.keyCode) {
       case 37: //left

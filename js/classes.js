@@ -18,10 +18,6 @@ function Piece(id, description, rots, color) {
   this.path = `assets/${this.id}-${this.description}.svg`; //Ej src: "assets/1A-Semicircle.svg"
   this.boxPath = `assets/${this.id}-${this.description}-box.svg`;
   this.position = Math.floor(Math.random()*4); //Out of possible rotations
-  this.x = 0; //For drawing on the board
-  this.y = 0;
-  this.width = 20; //For scaling
-  this.height = 20;
 }
 
 //Functions are defined within prototype to save memory
@@ -71,7 +67,6 @@ Input: index of game's available pieces array
 Effect: Sets a reference to that piece from Player
 The game is a hard parameter, whereas the index will be passed
 through DOM interactions */
-//Seems to work well
 Player.prototype.grabPiece = function(game, pieceid) {
   this.heldPiece = game.availablePieces.filter(el => el.id === pieceid)[0];
   selectedPiece(game, this.heldPiece); //For graphic display
@@ -89,7 +84,6 @@ Player.prototype.placePiece = function(game) {
       placedPiece(this.heldPiece, game);//Notify the player
       let pieceDiv = document.getElementById(`${this.heldPiece.id}-piece`);
       pieceDiv.style.display = "none";
-      //pieceDiv.parentNode.outerHTML = ""; //Delete the element
       piecesListeners(game);
       if(game.checkFinished(game.board)) {
         game.checkWinner(game.timer);
@@ -109,14 +103,9 @@ Player.prototype.placePiece = function(game) {
     dehighlightPieces(game);
   }
   
-  this.heldPiece = null; //Regresar pieza a tablero en posición original
+  this.heldPiece = null; //Return piece to board in original position
   game.board.selectedSlot = null;
   this.clickedSlot = null;
-}
-
-//TODO: ¿sirve?
-Player.prototype.clickSlot = function(slot) {
-  this.clickedSlot = slot;
 }
 
 function Game(mode, pieces) {
@@ -127,10 +116,10 @@ function Game(mode, pieces) {
 }
 
 Game.prototype.buildParameters = function() {
-  switch (this.mode) { //TODO: Verificar si sequence se queda
+  switch (this.mode) {
     case "1P Easy":
       this.modeParams = { 
-        time : 60, 
+        time : 40, 
         players : 1,
         rows : 3,
         sequence : [5]
@@ -138,7 +127,7 @@ Game.prototype.buildParameters = function() {
       break;
     case "1P Classic":
       this.modeParams = { 
-        time : 90, 
+        time : 60, 
         players : 1,
         rows : 5,
         sequence : [5]
@@ -171,10 +160,10 @@ Game.prototype.buildParameters = function() {
 
     default:
       this.modeParams = {
-        time : 90, 
+        time : 40, 
         players : 1,
-        rows : 5,
-        sequence : [5]
+        rows : 3,
+        sequence : [3]
       }
       break;
   }
@@ -219,7 +208,6 @@ Game.prototype.checkGameOver = function() {
 Game.prototype.checkWinner = function(chron) {
   if (this.players.length === 1) {
     this.players[0].timeCollection.push(chron.secondsLeft);
-    console.log("The time was ", this.players[0].timeCollection);
     this.cleanInterval();
     youWin();
   }
