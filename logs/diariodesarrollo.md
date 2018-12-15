@@ -491,15 +491,3 @@ globales", lo cual también considero que es buena práctica.
 Funcionó de maravilla... y lo mejor fue darme cuenta de que resolví un problema
 que había detectado desde hace mucho tiempo, pero que nada más no había tenido
 la capacidad de entender hasta hoy.
-
-##### Qué aprendí
-
-
-Créditos y agradecimientos:
-Aline Aragón (Apoyo moral)
-Sandra Barrón (Asesoría UX)
-Ricardo Chavero (Concepto)
-José Carlos Correa ()
-María Teresa del Real (SVGs de piezas)
-Germán Domínguez (Asesoría HTML/CSS/JS)
-Paulina Espinosa (Asesoría UX)
